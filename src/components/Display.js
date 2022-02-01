@@ -48,8 +48,8 @@ class Display extends Component {
   createBars() {
     const { items } = this.state;
     return (
-      <SortableContainer axis="x" onSortEnd={this.onSortEnd}>
-        {items.map((value, index) => (
+      <SortableContainer
+        children={items.map((value, index) => (
           <SortableItem
             key={`item-${index}`}
             index={index}
@@ -58,7 +58,9 @@ class Display extends Component {
             _width={"40px"}
           />
         ))}
-      </SortableContainer>
+        axis="x"
+        onSortEnd={this.onSortEnd}
+      ></SortableContainer>
     );
   }
 
