@@ -4,23 +4,25 @@ import Bar from "./Bar";
 import { sortableContainer, sortableElement } from "react-sortable-hoc";
 import { arrayMoveImmutable } from "array-move";
 import Sidebar from "./Sidebar";
+import SortSelection from "./SortSelection";
+import "./ProblemSetCreator.css";
 
-const SortableItem = sortableElement(({ value, _height, _width }) => (
+const SortableItem = sortableElement(({ index, itemIndex, value, _height, _width, handleChange }) => (
   <Bar height={_height} width={_width}>
-    {value}
+    <input id="value" value={value} onChange={(e) => handleChange(itemIndex, e)}/>
   </Bar>
 ));
 
 const SortableContainer = sortableContainer(({ children }) => (
-  <Col xs={10}
+  <Row
     style={{
-      height: "50vh",
+      height: "70vh",
       alignItems: "flex-end",
       justifyContent: "center",
     }}
   >
     {children}
-  </Col>
+  </Row>
 ));
 
 class ProblemSetCreator extends Component {
@@ -30,17 +32,32 @@ class ProblemSetCreator extends Component {
       questions: [{
         values: this.generateItems(10)  // array of arrays of values for each column in each question
       }],  
-      currentQuestion: 0  // index of questions, determines which question to display
+      currentQuestion: 0,  // index of questions, determines which question to display
+      selectedSorts: [0],  // holds a number representing each sort for each question from questions
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleCheck = this.handleCheck.bind(this);
+  }
+
+  handleCheck(event) {
+    console.log("wwa")
+    let index = this.state.currentQuestion;
+    console.log(index);
+    let sortId = event.target.id;
+    console.log(typeof sortId);
+    const selectedSorts = this.state.selectedSorts;
+    selectedSorts[index] = sortId;
+    console.log(this.state.selectedSorts);
+    this.setState({
+      selectedSorts: selectedSorts,
+    })
+    console.log(selectedSorts);
   }
 
   onSortEnd = ({ oldIndex, newIndex }) => {
-    // this.setState(({ items }) => ({
-    //   items: arrayMoveImmutable(items, oldIndex, newIndex),
-    // }));
     const questions = this.state.questions.slice();
     const values = questions[this.state.currentQuestion].values;
     questions[this.state.currentQuestion] = {
@@ -64,6 +81,9 @@ class ProblemSetCreator extends Component {
   // returns reordable bars in a container
   createBars(qNumber) {
     const valuesObj = this.state.questions[qNumber];  // returns value object in index qNumber
+    if (this.state.questions.length === 0) {
+      return null;
+    }
     const values = valuesObj.values;
     return (
       <SortableContainer
@@ -71,9 +91,11 @@ class ProblemSetCreator extends Component {
           <SortableItem
             key={`item-${index}`}
             index={index}
+            itemIndex={index}
             value={value}
             _height={String(Math.min(400, 30 + (value - 1) * 5)) + "px"}
             _width={"40px"}
+            handleChange={this.handleChange}
           />
         ))}
         axis="x"
@@ -96,41 +118,78 @@ class ProblemSetCreator extends Component {
   handleAdd() {
     const questions = this.state.questions;
     const values = this.generateItems(10);  // randomly generate values
+    const selectedSorts = this.state.selectedSorts;
     this.setState({
       questions: questions.concat([
         {
           values: values  // add a new array in questions
         }
       ]),
-      currentQuestion: questions.length - 1  // update index to point to newly added question (last in the list)
+      currentQuestion: questions.length,  // update index to point to newly added question (last in the list)
+      selectedSorts: selectedSorts.concat([0])
     });
   }
 
   handleRemove(qNumber) {
     // remove values object from right index in questions
     const questions = this.state.questions.slice();
+    const length = questions.length;
+    let newIndex;
+    if (this.state.currentQuestion >= qNumber) {  // if q to be deleted is currently selected
+      newIndex = length - 2  // select the previous question after this
+    } else {
+      newIndex = this.state.currentQuestion  // else just stay where you are
+    }
     questions.splice(qNumber, 1);
     this.setState({
-      questions: questions
+      questions: questions,
+      currentQuestion: newIndex
     });
+  }
+
+  handleChange(itemIndex, event) {
+    // change the value of the right item in the currentQuestion values array
+    const questions = this.state.questions.slice();
+    const re = /^[0-9\b]+$/;  // use this regexp to only allow numbers
+    if (event.target.value === '' || re.test(event.target.value)) {
+      let newValue = event.target.value;
+      if (newValue > 999) {
+        newValue = 999
+      }
+      questions[this.state.currentQuestion].values[itemIndex] = newValue;
+      this.setState({
+        questions: questions
+      });
+    }
   }
 
   render() {
     const questions = this.state.questions;
     return (
-      <Container fluid>
-        <Row>
-          <Col xs={2}>
-            <Sidebar
-              questions={questions}
-              handleClick={this.handleClick}
-              handleAdd={this.handleAdd}
-              handleRemove={this.handleRemove}
-            />
-          </Col>
-          {this.createBars(this.state.currentQuestion)}
-        </Row>
-      </Container>
+        <div>
+          <Sidebar
+            questions={questions}
+            handleClick={this.handleClick}
+            handleAdd={this.handleAdd}
+            handleRemove={this.handleRemove}
+            currentQuestion={this.state.currentQuestion}
+          />
+          <Container
+            className="Editor"
+            style={{
+              width: "60%",
+            }}
+          >
+            <Row>
+              <SortSelection
+                id="radioSorts"
+                selectedSort={this.state.selectedSorts[this.state.currentQuestion]}
+                handleCheck={this.handleCheck}
+              />
+            </Row>
+            {this.createBars(this.state.currentQuestion)}
+          </Container>
+        </div>
     )
   }
 }
