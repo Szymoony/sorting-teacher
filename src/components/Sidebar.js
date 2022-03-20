@@ -1,5 +1,4 @@
-import { Button } from "bootstrap";
-import React, { Component } from "react";
+import React from "react";
 import "./Sidebar.css";
 
 function Sidebar(props) {
@@ -22,16 +21,17 @@ function Sidebar(props) {
   return (
     <div className="Sidebar">
       <ul className="SidebarContent">
-        <li className="ProblemSetName">
-          ProblemSetName
-        </li>
+        <input 
+          className="ProblemSetName"
+          value={props.problemSetName}
+          onChange={props.handleNameChange}
+        />
         {questionList}
         <li className="Add">
           <button onClick={props.handleAdd} id="AddButton">+</button>
         </li>
       </ul>
     </div>
-
   )
 }
 

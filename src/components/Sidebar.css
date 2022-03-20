@@ -153,4 +153,16 @@
   justify-content: center;
   align-items: center;
   font-weight: bold;
+  background-color: transparent;
+  border: none;
+  text-align: center;
+}
+
+.SidebarContent .ProblemSetName:focus {
+  outline-width: 0;
+}
+
+.SidebarContent .Submit {
+  position: absolute;
+  bottom: 0;
 }

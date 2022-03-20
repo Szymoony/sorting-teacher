@@ -1,9 +1,5 @@
-import React, { Component } from "react";
-import { Container, Row, Col, Form, FormCheck } from "react-bootstrap";
-import Bar from "./Bar";
-import { sortableContainer, sortableElement } from "react-sortable-hoc";
-import { arrayMoveImmutable } from "array-move";
-import Sidebar from "./Sidebar";
+import React from "react";
+import { Form } from "react-bootstrap";
 
 function SortSelection(props) {
   return (

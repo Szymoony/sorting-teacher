@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
 import Bar from "./Bar";
 import { sortableContainer, sortableElement } from "react-sortable-hoc";
 import { arrayMoveImmutable } from "array-move";
 import Sidebar from "./Sidebar";
 import SortSelection from "./SortSelection";
+import Submit from "./Submit";
 import "./ProblemSetCreator.css";
 
 const SortableItem = sortableElement(({ index, itemIndex, value, _height, _width, handleChange }) => (
@@ -33,17 +34,40 @@ class ProblemSetCreator extends Component {
         values: this.generateItems(10)  // array of arrays of values for each column in each question
       }],  
       currentQuestion: 0,  // index of questions, determines which question to display
-      selectedSorts: [0],  // holds a number representing each sort for each question from questions
+      selectedSorts: [''],  // holds a number representing each sort for each question from questions
+      problemSetName: "ProblemSetName"
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleCheck = this.handleCheck.bind(this);
+    this.handleNameChange = this.handleNameChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleSubmit() {
+    let problemSetName = this.state.problemSetName;
+    let questions = this.state.questions;
+    let message;
+    if (problemSetName === '' && questions.length === 0) {
+      message = "Name the problem set and add some questions before submitting";
+      alert(message);
+      return null;
+    } else if (problemSetName === '') {
+      message = "Name the problem set before submitting";
+      alert(message);
+      return null;
+    } else if (questions.length === 0) {
+      message = "Add some questions before submitting";
+      alert(message);
+      return null;
+    }
+
+    // write to external file
   }
 
   handleCheck(event) {
-    console.log("wwa")
     let index = this.state.currentQuestion;
     console.log(index);
     let sortId = event.target.id;
@@ -126,7 +150,7 @@ class ProblemSetCreator extends Component {
         }
       ]),
       currentQuestion: questions.length,  // update index to point to newly added question (last in the list)
-      selectedSorts: selectedSorts.concat([0])
+      selectedSorts: selectedSorts.concat([''])
     });
   }
 
@@ -163,6 +187,13 @@ class ProblemSetCreator extends Component {
     }
   }
 
+  handleNameChange(event) {
+    let newValue = event.target.value;
+    this.setState({
+      problemSetName: newValue,
+    })
+  }
+
   render() {
     const questions = this.state.questions;
     return (
@@ -173,6 +204,8 @@ class ProblemSetCreator extends Component {
             handleAdd={this.handleAdd}
             handleRemove={this.handleRemove}
             currentQuestion={this.state.currentQuestion}
+            problemSetName={this.state.problemSetName}
+            handleNameChange={this.handleNameChange}
           />
           <Container
             className="Editor"
@@ -188,6 +221,9 @@ class ProblemSetCreator extends Component {
               />
             </Row>
             {this.createBars(this.state.currentQuestion)}
+            <Submit
+              handleSubmit={this.handleSubmit}
+            />
           </Container>
         </div>
     )
