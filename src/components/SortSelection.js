@@ -1,64 +1,64 @@
-import React from "react";
-import { Form } from "react-bootstrap";
+import React from 'react';
+import { Form } from 'react-bootstrap';
 
 function SortSelection(props) {
   return (
     <Form>
-      {["radio"].map((type) => (
-        <div key={`inline-${type}`} className="mb-3">
+      {['radio'].map((type) => (
+        <div key={`inline-${type}`} className='mb-3'>
           <Form.Check
             inline
-            label="Bubble Sort"
-            name="group1"
+            label='Bubble Sort'
+            name='group1'
             type={type}
-            id="bubble"
+            id='bubble'
             onChange={props.handleCheck}
-            checked={props.selectedSort === "bubble"}
+            checked={props.selectedSort === 'bubble'}
           />
           <Form.Check
             inline
-            label="Selection Sort"
-            name="group1"
+            label='Selection Sort'
+            name='group1'
             type={type}
-            id="selection"
+            id='selection'
             onChange={props.handleCheck}
-            checked={props.selectedSort === "selection"}
+            checked={props.selectedSort === 'selection'}
           />
           <Form.Check
             inline
-            label="Insertion Sort"
-            name="group1"
+            label='Insertion Sort'
+            name='group1'
             type={type}
-            id="insertion"
+            id='insertion'
             onChange={props.handleCheck}
-            checked={props.selectedSort === "insertion"}
+            checked={props.selectedSort === 'insertion'}
           />
           <Form.Check
             inline
-            label="Merge Sort"
-            name="group1"
+            label='Merge Sort'
+            name='group1'
             type={type}
-            id="merge"
+            id='merge'
             onChange={props.handleCheck}
-            checked={props.selectedSort === "merge"}
+            checked={props.selectedSort === 'merge'}
           />
           <Form.Check
             inline
-            label="Quick Sort"
-            name="group1"
+            label='Quick Sort'
+            name='group1'
             type={type}
-            id="quick"
+            id='quick'
             onChange={props.handleCheck}
-            checked={props.selectedSort === "quick"}
+            checked={props.selectedSort === 'quick'}
           />
           <Form.Check
             inline
-            label="Heap Sort"
-            name="group1"
+            label='Heap Sort'
+            name='group1'
             type={type}
-            id="heap"
+            id='heap'
             onChange={props.handleCheck}
-            checked={props.selectedSort === "heap"}
+            checked={props.selectedSort === 'heap'}
           />
         </div>
       ))}

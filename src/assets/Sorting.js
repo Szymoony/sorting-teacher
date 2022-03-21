@@ -19,7 +19,7 @@ export function bubbleSort(array) {
       break;
     }
   }
-  let unique = [...new Set(steps.map(x => JSON.stringify(x)))].map(x => JSON.parse(x));
+  let unique = [...new Set(steps.map((x) => JSON.stringify(x)))].map((x) => JSON.parse(x));
   return unique.slice();
 }
 
@@ -34,7 +34,7 @@ export function insertionSort(array) {
     array[j + 1] = currentValue;
     steps.push(array.slice());
   }
-  let unique = [...new Set(steps.map(x => JSON.stringify(x)))].map(x => JSON.parse(x));
+  let unique = [...new Set(steps.map((x) => JSON.stringify(x)))].map((x) => JSON.parse(x));
   return unique.slice();
 }
 
@@ -50,7 +50,7 @@ export function selectionSort(array) {
     [array[i], array[minIndex]] = [array[minIndex], array[i]];
     steps.push(array.slice());
   }
-  let unique = [...new Set(steps.map(x => JSON.stringify(x)))].map(x => JSON.parse(x));
+  let unique = [...new Set(steps.map((x) => JSON.stringify(x)))].map((x) => JSON.parse(x));
   return unique.slice();
 }
 

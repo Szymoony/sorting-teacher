@@ -1,31 +1,25 @@
-import React, { Component } from "react";
-import { Container, Row } from "react-bootstrap";
-import Bar from "./Bar";
-import { sortableContainer, sortableElement } from "react-sortable-hoc";
-import { arrayMoveImmutable } from "array-move";
-import Sidebar from "./Sidebar";
-import SortSelection from "./SortSelection";
-import Submit from "./Submit";
-import "../assets/ProblemSetCreator.css";
+import React, { Component } from 'react';
+import { Container, Row } from 'react-bootstrap';
+import Bar from './Bar';
+import { sortableContainer, sortableElement } from 'react-sortable-hoc';
+import { arrayMoveImmutable } from 'array-move';
+import Sidebar from './Sidebar';
+import SortSelection from './SortSelection';
+import Submit from './Submit';
+import '../assets/ProblemSetCreator.css';
 
-const SortableItem = sortableElement(
-  ({ index, itemIndex, value, _height, _width, handleChange }) => (
-    <Bar height={_height} width={_width}>
-      <input
-        id="value"
-        value={value}
-        onChange={(e) => handleChange(itemIndex, e)}
-      />
-    </Bar>
-  )
-);
+const SortableItem = sortableElement(({ index, itemIndex, value, _height, _width, handleChange }) => (
+  <Bar height={_height} width={_width}>
+    <input id='value' value={value} onChange={(e) => handleChange(itemIndex, e)} />
+  </Bar>
+));
 
 const SortableContainer = sortableContainer(({ children }) => (
   <Row
     style={{
-      height: "70vh",
-      alignItems: "flex-end",
-      justifyContent: "center",
+      height: '70vh',
+      alignItems: 'flex-end',
+      justifyContent: 'center',
     }}
   >
     {children}
@@ -42,8 +36,8 @@ class ProblemSetCreator extends Component {
         },
       ],
       currentQuestion: 0, // index of questions, determines which question to display
-      selectedSorts: ["bubble"], // holds a number representing each sort for each question from questions
-      problemSetName: "ProblemSetName",
+      selectedSorts: ['bubble'], // holds a number representing each sort for each question from questions
+      problemSetName: 'ProblemSetName',
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
@@ -57,22 +51,22 @@ class ProblemSetCreator extends Component {
   handleSubmit() {
     let problemSetName = this.state.problemSetName;
     let questions = this.state.questions;
-    let message = "";
+    let message = '';
 
-    if (problemSetName === "") {
-      message += "Name the problem set before submitting\n";
+    if (problemSetName === '') {
+      message += 'Name the problem set before submitting\n';
     }
     if (questions.length === 0) {
-      message += "Add some questions before submitting\n";
+      message += 'Add some questions before submitting\n';
     }
 
-    if (message !== "") {
+    if (message !== '') {
       alert(message);
       return null;
     }
 
     // write to external file here
-    console.log("problem set is valid");
+    console.log('problem set is valid');
   }
 
   handleCheck(event) {
@@ -122,12 +116,12 @@ class ProblemSetCreator extends Component {
             index={index}
             itemIndex={index}
             value={value}
-            _height={String(Math.min(400, 30 + (value - 1) * 5)) + "px"}
-            _width={"40px"}
+            _height={String(Math.min(400, 30 + (value - 1) * 5)) + 'px'}
+            _width={'40px'}
             handleChange={this.handleChange}
           />
         ))}
-        axis="x"
+        axis='x'
         onSortEnd={this.onSortEnd}
       ></SortableContainer>
     );
@@ -155,7 +149,7 @@ class ProblemSetCreator extends Component {
         },
       ]),
       currentQuestion: questions.length, // update index to point to newly added question (last in the list)
-      selectedSorts: selectedSorts.concat(["bubble"]),
+      selectedSorts: selectedSorts.concat(['bubble']),
     });
   }
 
@@ -187,16 +181,16 @@ class ProblemSetCreator extends Component {
     // change the value of the right item in the currentQuestion values array
     const questions = this.state.questions.slice();
     const re = /^[0-9\b]+$/; // use this regexp to only allow numbers
-    if (event.target.value === "" || re.test(event.target.value)) {
+    if (event.target.value === '' || re.test(event.target.value)) {
       let newValue = event.target.value;
-      if (newValue > 999) {
-        newValue = 999;
+      if (newValue > 50) {
+        newValue = 50;
       }
       if (!newValue) {
         // change to 0 if nothing
         newValue = 0;
       }
-      if (newValue[0] === "0") {
+      if (newValue[0] === '0') {
         // if first digit is 0, automatically remove
         newValue = newValue.substring(1);
       }
@@ -219,7 +213,7 @@ class ProblemSetCreator extends Component {
     const sortSelect =
       questions.length === 0 ? null : ( // sortSelect only displays radio inputs if there is at least 1 question
         <SortSelection
-          id="radioSorts"
+          id='radioSorts'
           selectedSort={this.state.selectedSorts[this.state.currentQuestion]}
           handleCheck={this.handleCheck}
         />
@@ -236,7 +230,7 @@ class ProblemSetCreator extends Component {
           problemSetName={this.state.problemSetName}
           handleNameChange={this.handleNameChange}
         />
-        <Container className="Editor" style={{ width: "60%" }}>
+        <Container className='Editor' style={{ width: '60%' }}>
           <Row>{sortSelect}</Row>
           {this.createBars(this.state.currentQuestion)}
           <Submit handleSubmit={this.handleSubmit} />

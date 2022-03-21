@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import { Container, Row, Button, ProgressBar, Col } from "react-bootstrap";
-import Bar from "./Bar";
-import History from "./History";
-import { sortableContainer, sortableElement } from "react-sortable-hoc";
-import { arrayMoveImmutable } from "array-move";
-import { bubbleSort, insertionSort, selectionSort } from "../Sorting";
+import React, { Component } from 'react';
+import { Container, Row, Button, ProgressBar, Col } from 'react-bootstrap';
+import Bar from './Bar';
+import History from './History';
+import { sortableContainer, sortableElement } from 'react-sortable-hoc';
+import { arrayMoveImmutable } from 'array-move';
+import { bubbleSort, insertionSort, selectionSort } from '../assets/Sorting';
 
 const SortableItem = sortableElement(({ value, _height, _width }) => (
   <Bar height={_height} width={_width}>
@@ -15,9 +15,9 @@ const SortableItem = sortableElement(({ value, _height, _width }) => (
 const SortableContainer = sortableContainer(({ children }) => (
   <Row
     style={{
-      height: "50vh",
-      alignItems: "flex-end",
-      justifyContent: "center",
+      height: '50vh',
+      alignItems: 'flex-end',
+      justifyContent: 'center',
     }}
   >
     {children}
@@ -42,10 +42,7 @@ class Visualise extends Component {
 
   createBars() {
     const { items } = this.state;
-    const percentage = (
-      (this.state.currentStep / this.steps.length) *
-      100
-    ).toFixed(1);
+    const percentage = ((this.state.currentStep / this.steps.length) * 100).toFixed(1);
     return (
       <Container>
         <Row>
@@ -56,19 +53,19 @@ class Visualise extends Component {
                 index={index}
                 value={value}
                 _height={`${String(Math.min(400, 30 + (value - 1) * 5))}px`}
-                _width={"40px"}
+                _width={'40px'}
               />
             ))}
-            axis="x"
+            axis='x'
             onSortEnd={this.onSortEnd}
           ></SortableContainer>
         </Row>
-        <Row className="justify-content-md-center mt-3">
-          <Col lg="7">
+        <Row className='justify-content-md-center mt-3'>
+          <Col lg='7'>
             <ProgressBar now={percentage} label={`${percentage}%`} />
           </Col>
-          <Col lg="1">
-            <Button variant="outline-dark" onClick={this.validate.bind(this)}>
+          <Col lg='1'>
+            <Button variant='outline-dark' onClick={this.validate.bind(this)}>
               Next
             </Button>
           </Col>
@@ -82,13 +79,9 @@ class Visualise extends Component {
       <Row>
         <Col md={8}>{this.createBars()}</Col>
         <Col md={4}>
-          <Container className="my-3">
-            <h1 style={{ fontSize: "20px" }}>
-              History (
-              {this.props.algoType.charAt(0).toUpperCase() +
-                this.props.algoType.slice(1) +
-                " Sort"}
-              )
+          <Container className='my-3'>
+            <h1 style={{ fontSize: '20px' }}>
+              History ({this.props.algoType.charAt(0).toUpperCase() + this.props.algoType.slice(1) + ' Sort'})
             </h1>
             <History steps={this.steps} id={this.state.currentStep} />
           </Container>
@@ -100,11 +93,11 @@ class Visualise extends Component {
   updateSteps() {
     const type = this.props.algoType;
     const copiedList = this.props.list.slice();
-    if (type === "bubble") {
+    if (type === 'bubble') {
       return bubbleSort(copiedList);
-    } else if (type === "insertion") {
+    } else if (type === 'insertion') {
       return insertionSort(copiedList);
-    } else if (type === "selection") {
+    } else if (type === 'selection') {
       return selectionSort(copiedList);
     }
   }
@@ -115,7 +108,7 @@ class Visualise extends Component {
     if (JSON.stringify(items) === JSON.stringify(this.steps[count])) {
       this.setState({ currentStep: this.state.currentStep + 1 });
     } else {
-      alert("Wrong Relocation!");
+      alert('Wrong Relocation!');
     }
   }
 }

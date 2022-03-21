@@ -1,51 +1,47 @@
-import React, { createRef } from "react";
-import { Form, Row, Col, Button, Container } from "react-bootstrap";
-import Visualise from "./Visualise";
+import React, { createRef } from 'react';
+import { Form, Row, Col, Button, Container } from 'react-bootstrap';
+import Visualise from './Visualise';
 
 class SinglePlay extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      mode: "select",
+      mode: 'select',
     };
     this.list = [];
     this.listRef = createRef();
-    this.algorithms = "bubble";
+    this.algorithms = 'bubble';
   }
 
   render() {
     let left_side = null;
     const mode = this.state.mode;
-    if (mode === "select") {
+    if (mode === 'select') {
       left_side = <div></div>;
-    } else if (mode === "play") {
-      left_side = (
-        <Visualise list={JSON.parse(this.list)} algoType={this.algorithms} />
-      );
+    } else if (mode === 'play') {
+      left_side = <Visualise list={JSON.parse(this.list)} algoType={this.algorithms} />;
     }
     return (
       <Container>
-        <Row className="my-5">
+        <Row className='my-5'>
           <Col
             md={9}
             style={{
-              border: "1px solid black",
-              height: "calc(100vh - 170px)",
+              border: '1px solid black',
+              height: 'calc(100vh - 170px)',
             }}
           >
             {left_side}
           </Col>
           <Col md={3}>
             <Form onSubmit={this.validate.bind(this)}>
-              <Row className="mx-3 my-5">
-                <Form.Group as={Row} controlId="formGridAlgorithms">
+              <Row className='mx-3 my-5'>
+                <Form.Group as={Row} controlId='formGridAlgorithms'>
                   <Form.Label>Select algorithms</Form.Label>
                   <Form.Control
-                    as="select"
+                    as='select'
                     onChange={(e) => {
-                      this.algorithms = e.target.value
-                        .split(" ")[0]
-                        .toLowerCase();
+                      this.algorithms = e.target.value.split(' ')[0].toLowerCase();
                     }}
                   >
                     <option>Bubble Sort</option>
@@ -57,31 +53,25 @@ class SinglePlay extends React.Component {
                 </Form.Group>
               </Row>
 
-              <Row className="mx-3 my-5">
-                <Form.Group as={Row} controlId="formGridList">
+              <Row className='mx-3 my-5'>
+                <Form.Group as={Row} controlId='formGridList'>
                   <Form.Label>List</Form.Label>
-                  <Form.Control
-                    ref={(ref) => (this.listRef = ref)}
-                    placeholder="[3, 2, 4, 1, 5]"
-                  />
+                  <Form.Control ref={(ref) => (this.listRef = ref)} placeholder='[3, 2, 4, 1, 5]' />
                 </Form.Group>
               </Row>
 
-              <Row className="mx-3 my-5">
-                <Form.Group as={Row} controlId="formGridButton">
+              <Row className='mx-3 my-5'>
+                <Form.Group as={Row} controlId='formGridButton'>
                   <Form.Label>Random list with length of 7</Form.Label>
-                  <Button
-                    variant="dark"
-                    onClick={this.generateRandomList.bind(this)}
-                  >
+                  <Button variant='dark' onClick={this.generateRandomList.bind(this)}>
                     Random List
                   </Button>
                 </Form.Group>
               </Row>
 
-              <Row className="mx-3 my-5">
-                <Button variant="info" type="submit">
-                  {this.state.mode === "select" ? "Start" : "Reset"}
+              <Row className='mx-3 my-5'>
+                <Button variant='info' type='submit'>
+                  {this.state.mode === 'select' ? 'Start' : 'Reset'}
                 </Button>
               </Row>
             </Form>
@@ -94,21 +84,21 @@ class SinglePlay extends React.Component {
   generateRandomList() {
     let l = randomListNoDup(50, 7);
     this.setState({ list: l });
-    this.listRef.value = `[${l.toString().replaceAll(",", ", ")}]`;
+    this.listRef.value = `[${l.toString().replaceAll(',', ', ')}]`;
   }
 
   validate(e) {
     e.preventDefault();
     if (!this.listRef.value) {
-      alert("Please enter the valid list");
+      alert('Please enter the valid list');
     } else {
       this.list = this.listRef.value;
-      if (this.state.mode === "play") {
-        if (window.confirm("Do you surely want to reset?")) {
-          this.setState({ mode: "select" });
+      if (this.state.mode === 'play') {
+        if (window.confirm('Do you surely want to reset?')) {
+          this.setState({ mode: 'select' });
         }
       } else {
-        this.setState({ mode: "play" });
+        this.setState({ mode: 'play' });
       }
     }
   }

@@ -1,39 +1,39 @@
-import React, { Component } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import Navigation from "./components/Navigation";
-import Home from "./components/Home";
-import SinglePlay from "./components/SinglePlay";
-import ProblemSetCreator from "./components/ProblemSetCreator";
+import React, { Component } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Navigation from './components/Navigation';
+import Home from './components/Home';
+import SinglePlay from './components/SinglePlay';
+import ProblemSetCreator from './components/ProblemSetCreator';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      mode: "single",
+      mode: 'single',
     };
   }
 
   render() {
     let display_type = null;
     const { mode } = this.state;
-    if (mode === "main") {
+    if (mode === 'main') {
       display_type = <Home />;
-    } else if (mode === "single") {
+    } else if (mode === 'single') {
       display_type = <SinglePlay />;
-    } else if (mode === "problemSet") {
+    } else if (mode === 'problemSet') {
       display_type = <ProblemSetCreator />;
     }
 
     return (
-      <div className="App">
+      <div className='App'>
         <Navigation
           onClick={(id) => {
             if (id === 0) {
-              this.setState({ mode: "main" });
+              this.setState({ mode: 'main' });
             } else if (id === 1) {
-              this.setState({ mode: "single" });
+              this.setState({ mode: 'single' });
             } else if (id === 2) {
-              this.setState({ mode: "problemSet" });
+              this.setState({ mode: 'problemSet' });
             }
           }}
         />
