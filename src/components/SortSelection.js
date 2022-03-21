@@ -11,54 +11,54 @@ function SortSelection(props) {
             label="Bubble Sort"
             name="group1"
             type={type}
-            id={0}
+            id="bubble"
             onChange={props.handleCheck}
-            checked={props.selectedSort === ""}
+            checked={props.selectedSort === "bubble"}
           />
           <Form.Check
             inline
             label="Selection Sort"
             name="group1"
             type={type}
-            id={1}
+            id="selection"
             onChange={props.handleCheck}
-            checked={props.selectedSort === "1"}
+            checked={props.selectedSort === "selection"}
           />
           <Form.Check
             inline
             label="Insertion Sort"
             name="group1"
             type={type}
-            id={2}
+            id="insertion"
             onChange={props.handleCheck}
-            checked={props.selectedSort === "2"}
+            checked={props.selectedSort === "insertion"}
           />
           <Form.Check
             inline
             label="Merge Sort"
             name="group1"
             type={type}
-            id={3}
+            id="merge"
             onChange={props.handleCheck}
-            checked={props.selectedSort === "3"}
+            checked={props.selectedSort === "merge"}
           />
           <Form.Check
             inline
             label="Quick Sort"
             name="group1"
             type={type}
-            id={4}
+            id="quick"
             onChange={props.handleCheck}
-            checked={props.selectedSort === "4"}
+            checked={props.selectedSort === "quick"}
           />
           <Form.Check
             inline
             label="Heap Sort"
             name="group1"
             type={type}
-            id={5}
+            id="heap"
             onChange={props.handleCheck}
-            checked={props.selectedSort === "5"}
+            checked={props.selectedSort === "heap"}
           />
         </div>
       ))}
