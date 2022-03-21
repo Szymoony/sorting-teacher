@@ -3,6 +3,7 @@ import { Container, Row, Button, ProgressBar, Col } from "react-bootstrap";
 import Bar from "./Bar";
 import { sortableContainer, sortableElement } from "react-sortable-hoc";
 import { arrayMoveImmutable } from "array-move";
+import { bubbleSort, insertionSort, selectionSort } from "../Sorting";
 
 const SortableItem = sortableElement(({ value, _height, _width }) => (
   <Bar height={_height} width={_width}>
@@ -26,9 +27,10 @@ class Visualise extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      numElements: 10,
-      items: this.props.list,
+      items: props.list.slice(),
+      currentStep: 0,
     };
+    this.steps = this.updateSteps();
   }
 
   onSortEnd = ({ oldIndex, newIndex }) => {
@@ -39,6 +41,10 @@ class Visualise extends Component {
 
   createBars() {
     const { items } = this.state;
+    const percentage = (
+      (this.state.currentStep / this.steps.length) *
+      100
+    ).toFixed(2);
     return (
       <Container>
         <Row>
@@ -48,7 +54,7 @@ class Visualise extends Component {
                 key={`item-${index}`}
                 index={index}
                 value={value}
-                _height={String(Math.min(400, 30 + (value - 1) * 5)) + "px"}
+                _height={`${String(Math.min(400, 30 + (value - 1) * 5))}px`}
                 _width={"40px"}
               />
             ))}
@@ -56,12 +62,17 @@ class Visualise extends Component {
             onSortEnd={this.onSortEnd}
           ></SortableContainer>
         </Row>
-        <Row className="justify-content-md-center" style={{ marginTop: "100px", justifyItems: "center" }}>
+        <Row
+          className="justify-content-md-center"
+          style={{ marginTop: "100px", justifyItems: "center" }}
+        >
           <Col lg="7">
-            <ProgressBar now={30} label={`30%`} />
+            <ProgressBar now={percentage} label={`${percentage}%`} />
           </Col>
           <Col lg="1">
-            <Button variant="primary">Next</Button>
+            <Button variant="primary" onClick={this.validate.bind(this)}>
+              Next
+            </Button>
           </Col>
         </Row>
       </Container>
@@ -69,7 +80,36 @@ class Visualise extends Component {
   }
 
   render() {
-    return <Container>{this.createBars()}</Container>;
+    return this.createBars();
+  }
+
+  updateSteps() {
+    const type = this.props.algoType;
+    const copiedList = this.props.list.slice();
+    if (type === "bubble") {
+      return bubbleSort(copiedList);
+    } else if (type === "insertion") {
+      return insertionSort(copiedList);
+    } else if (type === "selection") {
+      return selectionSort(copiedList);
+    }
+  }
+
+  validate() {
+    if (this.state.currentStep >= this.steps.length) {
+      // TODO: Change alert to something else.
+      alert("Done!");
+    } else {
+      const items = this.state.items;
+      const count = this.state.currentStep;
+      if (JSON.stringify(items) === JSON.stringify(this.steps[count])) {
+        alert("Move on!");
+        this.setState({ currentStep: this.state.currentStep + 1 });
+      } else {
+        alert("Wrong Relocation!");
+        // console.log(items, this.steps[count]);
+      }
+    }
   }
 }
 

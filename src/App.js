@@ -9,44 +9,34 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      mode: "single"
+      mode: "single",
     };
   }
 
   render() {
     let display_type = null;
-    const mode = this.state.mode;
-    switch (mode) {
-      case "main":
-        display_type = <Home />;
-        break;
-      case "single":
-        display_type = <SinglePlay />;
-        break;
-      case "problemSet":
-        display_type = <ProblemSet />;
-        break;
-      default:
-        break;
+    const { mode } = this.state;
+    if (mode === "main") {
+      display_type = <Home />;
+    } else if (mode === "single") {
+      display_type = <SinglePlay />;
+    } else if (mode === "problemSet") {
+      display_type = <ProblemSet />;
     }
 
     return (
       <div className="App">
-        <Navigation onClick={function (id) {
-          switch (id) {
-            case 0:
+        <Navigation
+          onClick={(id) => {
+            if (id === 0) {
               this.setState({ mode: "main" });
-              break;
-            case 1:
+            } else if (id === 1) {
               this.setState({ mode: "single" });
-              break;
-            case 2:
+            } else if (id === 2) {
               this.setState({ mode: "problemSet" });
-              break;
-            default:
-              break;
-          }
-        }.bind(this)} />
+            }
+          }}
+        />
         {display_type}
       </div>
     );
