@@ -1,5 +1,5 @@
 import React, { createRef } from "react";
-import { Form, Row, Col, Button } from "react-bootstrap";
+import { Form, Row, Col, Button, Container } from "react-bootstrap";
 import Visualise from "./Visualise";
 
 class SinglePlay extends React.Component {
@@ -14,67 +14,81 @@ class SinglePlay extends React.Component {
   }
 
   render() {
-    let display_type = null;
+    let left_side = null;
     const mode = this.state.mode;
     if (mode === "select") {
-      display_type = (
-        <Form onSubmit={this.validate.bind(this)}>
-          <Row>
-            <Col className="m-5">
-              <Form.Group as={Row} controlId="formGridAlgorithms">
-                <Form.Label>Select algorithms</Form.Label>
-                <Form.Control
-                  as="select"
-                  onChange={(e) => {
-                    this.algorithms = e.target.value
-                      .split(" ")[0]
-                      .toLowerCase();
-                  }}
-                >
-                  <option>Bubble Sort</option>
-                  <option>Insertion Sort</option>
-                  <option>Selection Sort</option>
-                  <option>Merge Sort</option>
-                  <option>Quick Sort</option>
-                </Form.Control>
-              </Form.Group>
-            </Col>
-
-            <Col className="m-5">
-              <Form.Group as={Row} controlId="formGridList">
-                <Form.Label>List</Form.Label>
-                <Form.Control
-                  ref={(ref) => (this.listRef = ref)}
-                  placeholder="[3, 2, 4, 1, 5]"
-                />
-              </Form.Group>
-            </Col>
-
-            <Col className="m-5">
-              <Form.Group as={Row} controlId="formGridButton">
-                <Form.Label>Random list with length of 10</Form.Label>
-                <Button
-                  variant="primary"
-                  onClick={this.generateRandomList.bind(this)}
-                >
-                  Random List
-                </Button>
-              </Form.Group>
-            </Col>
-          </Row>
-          <Row className="mx-5">
-            <Button variant="primary" type="submit">
-              Submit
-            </Button>
-          </Row>
-        </Form>
-      );
+      left_side = <div></div>;
     } else if (mode === "play") {
-      display_type = (
+      left_side = (
         <Visualise list={JSON.parse(this.list)} algoType={this.algorithms} />
       );
     }
-    return display_type;
+    return (
+      <Container>
+        <Row className="my-5">
+          <Col
+            md={9}
+            style={{
+              border: "1px solid black",
+              height: "calc(100vh - 170px)",
+            }}
+          >
+            {left_side}
+          </Col>
+          <Col md={3}>
+            <Form onSubmit={this.validate.bind(this)}>
+              <Row className="mx-3 my-5">
+                <Form.Group as={Row} controlId="formGridAlgorithms">
+                  <Form.Label>Select algorithms</Form.Label>
+                  <Form.Control
+                    as="select"
+                    onChange={(e) => {
+                      this.algorithms = e.target.value
+                        .split(" ")[0]
+                        .toLowerCase();
+                    }}
+                  >
+                    <option>Bubble Sort</option>
+                    <option>Insertion Sort</option>
+                    <option>Selection Sort</option>
+                    {/* <option>Merge Sort</option>
+                    <option>Quick Sort</option> */}
+                  </Form.Control>
+                </Form.Group>
+              </Row>
+
+              <Row className="mx-3 my-5">
+                <Form.Group as={Row} controlId="formGridList">
+                  <Form.Label>List</Form.Label>
+                  <Form.Control
+                    ref={(ref) => (this.listRef = ref)}
+                    placeholder="[3, 2, 4, 1, 5]"
+                  />
+                </Form.Group>
+              </Row>
+
+              <Row className="mx-3 my-5">
+                <Form.Group as={Row} controlId="formGridButton">
+                  <Form.Label>Random list with length of 10</Form.Label>
+                  <Button
+                    variant="primary"
+                    onClick={this.generateRandomList.bind(this)}
+                  >
+                    Random List
+                  </Button>
+                </Form.Group>
+              </Row>
+
+              <Row className="mx-3 my-5">
+                <Button variant="primary" type="submit">
+                  Next
+                </Button>
+              </Row>
+            </Form>
+          </Col>
+        </Row>
+      </Container>
+    );
   }
 
   generateRandomList() {
@@ -83,17 +97,16 @@ class SinglePlay extends React.Component {
     this.listRef.value = `[${l.toString().replaceAll(",", ", ")}]`;
   }
 
-  validate() {
+  validate(e) {
+    e.preventDefault();
     if (!this.listRef.value) {
       // TODO: validate the input
-      alert("Please");
+      alert("Please enter the valid list");
     } else {
       this.list = this.listRef.value;
       this.setState({ mode: "play" });
     }
   }
-
-  onChangeAlgo() {}
 }
 
 const randomListNoDup = (totalIndex, selectingNumber) => {

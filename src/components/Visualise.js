@@ -86,7 +86,7 @@ class Visualise extends Component {
         <Col>{this.createBars()}</Col>
         <Col>
           <Container>
-            <h1>History</h1>
+            <h1>History({this.props.algoType.charAt(0).toUpperCase() + this.props.algoType.slice(1) + " Sort"})</h1>
             <History steps={this.steps} id={this.state.currentStep} />
           </Container>
         </Col>
