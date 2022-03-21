@@ -6,13 +6,19 @@ import { arrayMoveImmutable } from "array-move";
 import Sidebar from "./Sidebar";
 import SortSelection from "./SortSelection";
 import Submit from "./Submit";
-import "./ProblemSetCreator.css";
+import "../assets/ProblemSetCreator.css";
 
-const SortableItem = sortableElement(({ index, itemIndex, value, _height, _width, handleChange }) => (
-  <Bar height={_height} width={_width}>
-    <input id="value" value={value} onChange={(e) => handleChange(itemIndex, e)}/>
-  </Bar>
-));
+const SortableItem = sortableElement(
+  ({ index, itemIndex, value, _height, _width, handleChange }) => (
+    <Bar height={_height} width={_width}>
+      <input
+        id="value"
+        value={value}
+        onChange={(e) => handleChange(itemIndex, e)}
+      />
+    </Bar>
+  )
+);
 
 const SortableContainer = sortableContainer(({ children }) => (
   <Row
@@ -30,12 +36,14 @@ class ProblemSetCreator extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      questions: [{
-        values: this.generateItems(10)  // array of arrays of values for each column in each question
-      }],  
-      currentQuestion: 0,  // index of questions, determines which question to display
-      selectedSorts: [''],  // holds a number representing each sort for each question from questions
-      problemSetName: "ProblemSetName"
+      questions: [
+        {
+          values: this.generateItems(10), // array of arrays of values for each column in each question
+        },
+      ],
+      currentQuestion: 0, // index of questions, determines which question to display
+      selectedSorts: [""], // holds a number representing each sort for each question from questions
+      problemSetName: "ProblemSetName",
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
@@ -50,11 +58,11 @@ class ProblemSetCreator extends Component {
     let problemSetName = this.state.problemSetName;
     let questions = this.state.questions;
     let message;
-    if (problemSetName === '' && questions.length === 0) {
+    if (problemSetName === "" && questions.length === 0) {
       message = "Name the problem set and add some questions before submitting";
       alert(message);
       return null;
-    } else if (problemSetName === '') {
+    } else if (problemSetName === "") {
       message = "Name the problem set before submitting";
       alert(message);
       return null;
@@ -77,7 +85,7 @@ class ProblemSetCreator extends Component {
     console.log(this.state.selectedSorts);
     this.setState({
       selectedSorts: selectedSorts,
-    })
+    });
     console.log(selectedSorts);
   }
 
@@ -88,9 +96,9 @@ class ProblemSetCreator extends Component {
       values: arrayMoveImmutable(values, oldIndex, newIndex),
     };
     this.setState({
-      questions: questions
+      questions: questions,
     });
-  }
+  };
 
   generateItems(n) {
     const items = [];
@@ -104,7 +112,7 @@ class ProblemSetCreator extends Component {
   // called everytime a question is clicked and rendered (maybe???)
   // returns reordable bars in a container
   createBars(qNumber) {
-    const valuesObj = this.state.questions[qNumber];  // returns value object in index qNumber
+    const valuesObj = this.state.questions[qNumber]; // returns value object in index qNumber
     if (this.state.questions.length === 0) {
       return null;
     }
@@ -134,23 +142,23 @@ class ProblemSetCreator extends Component {
   handleClick(qNumber) {
     console.log(qNumber);
     this.setState({
-      currentQuestion: qNumber
+      currentQuestion: qNumber,
     });
   }
 
   // handles adding a new question
   handleAdd() {
     const questions = this.state.questions;
-    const values = this.generateItems(10);  // randomly generate values
+    const values = this.generateItems(10); // randomly generate values
     const selectedSorts = this.state.selectedSorts;
     this.setState({
       questions: questions.concat([
         {
-          values: values  // add a new array in questions
-        }
+          values: values, // add a new array in questions
+        },
       ]),
-      currentQuestion: questions.length,  // update index to point to newly added question (last in the list)
-      selectedSorts: selectedSorts.concat([''])
+      currentQuestion: questions.length, // update index to point to newly added question (last in the list)
+      selectedSorts: selectedSorts.concat([""]),
     });
   }
 
@@ -159,30 +167,31 @@ class ProblemSetCreator extends Component {
     const questions = this.state.questions.slice();
     const length = questions.length;
     let newIndex;
-    if (this.state.currentQuestion >= qNumber) {  // if q to be deleted is currently selected
-      newIndex = length - 2  // select the previous question after this
+    if (this.state.currentQuestion >= qNumber) {
+      // if q to be deleted is currently selected
+      newIndex = length - 2; // select the previous question after this
     } else {
-      newIndex = this.state.currentQuestion  // else just stay where you are
+      newIndex = this.state.currentQuestion; // else just stay where you are
     }
     questions.splice(qNumber, 1);
     this.setState({
       questions: questions,
-      currentQuestion: newIndex
+      currentQuestion: newIndex,
     });
   }
 
   handleChange(itemIndex, event) {
     // change the value of the right item in the currentQuestion values array
     const questions = this.state.questions.slice();
-    const re = /^[0-9\b]+$/;  // use this regexp to only allow numbers
-    if (event.target.value === '' || re.test(event.target.value)) {
+    const re = /^[0-9\b]+$/; // use this regexp to only allow numbers
+    if (event.target.value === "" || re.test(event.target.value)) {
       let newValue = event.target.value;
       if (newValue > 999) {
-        newValue = 999
+        newValue = 999;
       }
       questions[this.state.currentQuestion].values[itemIndex] = newValue;
       this.setState({
-        questions: questions
+        questions: questions,
       });
     }
   }
@@ -191,42 +200,42 @@ class ProblemSetCreator extends Component {
     let newValue = event.target.value;
     this.setState({
       problemSetName: newValue,
-    })
+    });
   }
 
   render() {
     const questions = this.state.questions;
     return (
-        <div>
-          <Sidebar
-            questions={questions}
-            handleClick={this.handleClick}
-            handleAdd={this.handleAdd}
-            handleRemove={this.handleRemove}
-            currentQuestion={this.state.currentQuestion}
-            problemSetName={this.state.problemSetName}
-            handleNameChange={this.handleNameChange}
-          />
-          <Container
-            className="Editor"
-            style={{
-              width: "60%",
-            }}
-          >
-            <Row>
-              <SortSelection
-                id="radioSorts"
-                selectedSort={this.state.selectedSorts[this.state.currentQuestion]}
-                handleCheck={this.handleCheck}
-              />
-            </Row>
-            {this.createBars(this.state.currentQuestion)}
-            <Submit
-              handleSubmit={this.handleSubmit}
+      <div>
+        <Sidebar
+          questions={questions}
+          handleClick={this.handleClick}
+          handleAdd={this.handleAdd}
+          handleRemove={this.handleRemove}
+          currentQuestion={this.state.currentQuestion}
+          problemSetName={this.state.problemSetName}
+          handleNameChange={this.handleNameChange}
+        />
+        <Container
+          className="Editor"
+          style={{
+            width: "60%",
+          }}
+        >
+          <Row>
+            <SortSelection
+              id="radioSorts"
+              selectedSort={
+                this.state.selectedSorts[this.state.currentQuestion]
+              }
+              handleCheck={this.handleCheck}
             />
-          </Container>
-        </div>
-    )
+          </Row>
+          {this.createBars(this.state.currentQuestion)}
+          <Submit handleSubmit={this.handleSubmit} />
+        </Container>
+      </div>
+    );
   }
 }
 

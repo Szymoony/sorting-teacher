@@ -1,5 +1,5 @@
 import React from "react";
-import "./Submit.css";
+import "../assets/Submit.css";
 
 function Submit(props) {
   return (

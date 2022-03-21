@@ -70,7 +70,7 @@ class Visualise extends Component {
             <ProgressBar now={percentage} label={`${percentage}%`} />
           </Col>
           <Col lg="1">
-            <Button variant="primary" onClick={this.validate.bind(this)}>
+            <Button variant="outline-dark" onClick={this.validate.bind(this)}>
               Next
             </Button>
           </Col>

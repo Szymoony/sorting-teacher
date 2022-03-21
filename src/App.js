@@ -3,7 +3,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Navigation from "./components/Navigation";
 import Home from "./components/Home";
 import SinglePlay from "./components/SinglePlay";
-import ProblemSet from "./components/ProblemSet";
 import ProblemSetCreator from "./components/ProblemSetCreator";
 
 class App extends Component {
@@ -22,7 +21,7 @@ class App extends Component {
     } else if (mode === "single") {
       display_type = <SinglePlay />;
     } else if (mode === "problemSet") {
-      display_type = <ProblemSet />;
+      display_type = <ProblemSetCreator />;
     }
 
     return (

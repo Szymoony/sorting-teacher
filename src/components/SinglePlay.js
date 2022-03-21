@@ -71,7 +71,7 @@ class SinglePlay extends React.Component {
                 <Form.Group as={Row} controlId="formGridButton">
                   <Form.Label>Random list with length of 7</Form.Label>
                   <Button
-                    variant="primary"
+                    variant="dark"
                     onClick={this.generateRandomList.bind(this)}
                   >
                     Random List
@@ -80,7 +80,7 @@ class SinglePlay extends React.Component {
               </Row>
 
               <Row className="mx-3 my-5">
-                <Button variant="primary" type="submit">
+                <Button variant="info" type="submit">
                   {this.state.mode === "select" ? "Start" : "Reset"}
                 </Button>
               </Row>
@@ -100,12 +100,13 @@ class SinglePlay extends React.Component {
   validate(e) {
     e.preventDefault();
     if (!this.listRef.value) {
-      // TODO: validate the input
       alert("Please enter the valid list");
     } else {
       this.list = this.listRef.value;
       if (this.state.mode === "play") {
-        this.setState({ mode: "select" });
+        if (window.confirm("Do you surely want to reset?")) {
+          this.setState({ mode: "select" });
+        }
       } else {
         this.setState({ mode: "play" });
       }
