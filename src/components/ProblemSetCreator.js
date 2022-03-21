@@ -17,7 +17,7 @@ const SortableItem = sortableElement(({ index, itemIndex, value, _height, _width
 const SortableContainer = sortableContainer(({ children }) => (
   <Row
     style={{
-      height: '70vh',
+      height: '50vh',
       alignItems: 'flex-end',
       justifyContent: 'center',
     }}
@@ -231,9 +231,7 @@ class ProblemSetCreator extends Component {
           handleNameChange={this.handleNameChange}
         />
         <Container className='Editor' style={{ width: '60%' }}>
-          <Row>{sortSelect}</Row>
-          {this.createBars(this.state.currentQuestion)}
-          <Submit handleSubmit={this.handleSubmit} />
+          <Row className='mt-3'>{sortSelect}</Row>
           {this.createBars(this.state.currentQuestion)}
           <Submit handleSubmit={this.handleSubmit} />
         </Container>

@@ -107,7 +107,7 @@ class SinglePlay extends React.Component {
 const randomListNoDup = (totalIndex, selectingNumber) => {
   let randomIndexArray = [];
   for (let i = 0; i < selectingNumber; i++) {
-    let randomNum = Math.floor(Math.random() * totalIndex + 1);
+    let randomNum = Math.floor(Math.random() * (totalIndex - 1) + 1);
     if (randomIndexArray.indexOf(randomNum) === -1) {
       randomIndexArray.push(randomNum);
     } else {
