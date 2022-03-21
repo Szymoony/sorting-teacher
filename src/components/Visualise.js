@@ -45,7 +45,7 @@ class Visualise extends Component {
     const percentage = (
       (this.state.currentStep / this.steps.length) *
       100
-    ).toFixed(2);
+    ).toFixed(1);
     return (
       <Container>
         <Row>
@@ -83,10 +83,16 @@ class Visualise extends Component {
   render() {
     return (
       <Row>
-        <Col>{this.createBars()}</Col>
-        <Col>
-          <Container>
-            <h1>History({this.props.algoType.charAt(0).toUpperCase() + this.props.algoType.slice(1) + " Sort"})</h1>
+        <Col md={8}>{this.createBars()}</Col>
+        <Col md={4}>
+          <Container className="my-3">
+            <h1 style={{ fontSize: "20px" }}>
+              History (
+              {this.props.algoType.charAt(0).toUpperCase() +
+                this.props.algoType.slice(1) +
+                " Sort"}
+              )
+            </h1>
             <History steps={this.steps} id={this.state.currentStep} />
           </Container>
         </Col>
@@ -107,14 +113,13 @@ class Visualise extends Component {
   }
 
   validate() {
-    if (this.state.currentStep >= this.steps.length) {
+    if (this.state.currentStep === this.steps.length) {
       // TODO: Change alert to something else.
       alert("Done!");
     } else {
       const items = this.state.items;
       const count = this.state.currentStep;
       if (JSON.stringify(items) === JSON.stringify(this.steps[count])) {
-        alert("Move on!");
         this.setState({ currentStep: this.state.currentStep + 1 });
       } else {
         alert("Wrong Relocation!");

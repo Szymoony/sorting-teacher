@@ -69,7 +69,7 @@ class SinglePlay extends React.Component {
 
               <Row className="mx-3 my-5">
                 <Form.Group as={Row} controlId="formGridButton">
-                  <Form.Label>Random list with length of 10</Form.Label>
+                  <Form.Label>Random list with length of 7</Form.Label>
                   <Button
                     variant="primary"
                     onClick={this.generateRandomList.bind(this)}
@@ -81,7 +81,7 @@ class SinglePlay extends React.Component {
 
               <Row className="mx-3 my-5">
                 <Button variant="primary" type="submit">
-                  Next
+                  Start
                 </Button>
               </Row>
             </Form>
@@ -92,7 +92,7 @@ class SinglePlay extends React.Component {
   }
 
   generateRandomList() {
-    let l = randomListNoDup(50, 5);
+    let l = randomListNoDup(50, 7);
     this.setState({ list: l });
     this.listRef.value = `[${l.toString().replaceAll(",", ", ")}]`;
   }

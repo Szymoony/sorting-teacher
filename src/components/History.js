@@ -3,7 +3,7 @@ function History(props) {
   for (let i = 0; i < props.id; i++) {
     histories.push(<li>{JSON.stringify(props.steps[i]).replaceAll(",", ", ")}</li>);
   }
-  return <ol>{histories}</ol>;
+  return <div style={{overflowY: 'auto'}}><ol>{histories}</ol></div>;
 }
 
 export default History;
