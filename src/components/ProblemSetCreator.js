@@ -34,7 +34,7 @@ class ProblemSetCreator extends Component {
         values: this.generateItems(10)  // array of arrays of values for each column in each question
       }],  
       currentQuestion: 0,  // index of questions, determines which question to display
-      selectedSorts: [''],  // holds a number representing each sort for each question from questions
+      selectedSorts: ['bubble'],  // holds a number representing each sort for each question from questions
       problemSetName: "ProblemSetName"
     };
     this.handleClick = this.handleClick.bind(this);
@@ -49,36 +49,32 @@ class ProblemSetCreator extends Component {
   handleSubmit() {
     let problemSetName = this.state.problemSetName;
     let questions = this.state.questions;
-    let message;
-    if (problemSetName === '' && questions.length === 0) {
-      message = "Name the problem set and add some questions before submitting";
-      alert(message);
-      return null;
-    } else if (problemSetName === '') {
-      message = "Name the problem set before submitting";
-      alert(message);
-      return null;
-    } else if (questions.length === 0) {
-      message = "Add some questions before submitting";
+    let message = '';
+
+    if (problemSetName === '') {
+      message += "Name the problem set before submitting\n";
+    } 
+    if (questions.length === 0) {
+      message += "Add some questions before submitting\n";
+    } 
+
+    if (message !== '') {
       alert(message);
       return null;
     }
 
-    // write to external file
+    // write to external file here
+    console.log("problem set is valid");
   }
 
   handleCheck(event) {
     let index = this.state.currentQuestion;
-    console.log(index);
     let sortId = event.target.id;
-    console.log(typeof sortId);
     const selectedSorts = this.state.selectedSorts;
     selectedSorts[index] = sortId;
-    console.log(this.state.selectedSorts);
     this.setState({
       selectedSorts: selectedSorts,
     })
-    console.log(selectedSorts);
   }
 
   onSortEnd = ({ oldIndex, newIndex }) => {
@@ -150,13 +146,14 @@ class ProblemSetCreator extends Component {
         }
       ]),
       currentQuestion: questions.length,  // update index to point to newly added question (last in the list)
-      selectedSorts: selectedSorts.concat([''])
+      selectedSorts: selectedSorts.concat(['bubble'])
     });
   }
 
   handleRemove(qNumber) {
     // remove values object from right index in questions
     const questions = this.state.questions.slice();
+    const selectedSorts = this.state.selectedSorts.slice();
     const length = questions.length;
     let newIndex;
     if (this.state.currentQuestion >= qNumber) {  // if q to be deleted is currently selected
@@ -165,10 +162,15 @@ class ProblemSetCreator extends Component {
       newIndex = this.state.currentQuestion  // else just stay where you are
     }
     questions.splice(qNumber, 1);
+    console.log(selectedSorts);
+    selectedSorts.splice(qNumber, 1);
+    
     this.setState({
       questions: questions,
-      currentQuestion: newIndex
+      currentQuestion: newIndex,
+      selectedSorts: selectedSorts
     });
+    console.log(selectedSorts);
   }
 
   handleChange(itemIndex, event) {
@@ -179,6 +181,12 @@ class ProblemSetCreator extends Component {
       let newValue = event.target.value;
       if (newValue > 999) {
         newValue = 999
+      }
+      if (!newValue) {  // change to 0 if nothing
+        newValue = 0
+      }
+      if (newValue[0] === '0') {  // if first digit is 0, automatically remove
+        newValue = newValue.substring(1);
       }
       questions[this.state.currentQuestion].values[itemIndex] = newValue;
       this.setState({
@@ -196,6 +204,15 @@ class ProblemSetCreator extends Component {
 
   render() {
     const questions = this.state.questions;
+    const sortSelect = questions.length === 0
+    // sortSelect only displays radio inputs if there is at least 1 question
+      ? null
+      : <SortSelection
+          id="radioSorts"
+          selectedSort={this.state.selectedSorts[this.state.currentQuestion]}
+          handleCheck={this.handleCheck}
+        />
+
     return (
         <div>
           <Sidebar
@@ -214,11 +231,7 @@ class ProblemSetCreator extends Component {
             }}
           >
             <Row>
-              <SortSelection
-                id="radioSorts"
-                selectedSort={this.state.selectedSorts[this.state.currentQuestion]}
-                handleCheck={this.handleCheck}
-              />
+              {sortSelect}
             </Row>
             {this.createBars(this.state.currentQuestion)}
             <Submit
