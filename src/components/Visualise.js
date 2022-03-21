@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Container, Row, Button, ProgressBar, Col } from "react-bootstrap";
 import Bar from "./Bar";
+import History from "./History";
 import { sortableContainer, sortableElement } from "react-sortable-hoc";
 import { arrayMoveImmutable } from "array-move";
 import { bubbleSort, insertionSort, selectionSort } from "../Sorting";
@@ -80,7 +81,17 @@ class Visualise extends Component {
   }
 
   render() {
-    return this.createBars();
+    return (
+      <Row>
+        <Col>{this.createBars()}</Col>
+        <Col>
+          <Container>
+            <h1>History</h1>
+            <History steps={this.steps} id={this.state.currentStep} />
+          </Container>
+        </Col>
+      </Row>
+    );
   }
 
   updateSteps() {
