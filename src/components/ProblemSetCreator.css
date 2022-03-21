@@ -1,0 +1,12 @@
+.Editor #title {
+  text-align: center;
+}
+
+#value {
+  width: 40px;
+  background: transparent;
+  border: none;
+  color: white;
+  text-align: center;
+}
+

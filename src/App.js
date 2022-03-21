@@ -4,6 +4,7 @@ import Navigation from "./components/Navigation";
 import Home from "./components/Home";
 import SinglePlay from "./components/SinglePlay";
 import ProblemSet from "./components/ProblemSet";
+import ProblemSetCreator from "./components/ProblemSetCreator";
 
 class App extends Component {
   constructor(props) {

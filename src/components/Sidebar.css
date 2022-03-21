@@ -1,0 +1,168 @@
+.Sidebar {
+  position: fixed;
+  width: 250px;
+  background-color: #2f4050;
+  overflow-y: scroll;
+  top: 56px;
+  left: -20px;
+  bottom: 0;
+}
+
+.SidebarContent {
+  height: auto;
+  padding: 0;
+  width: 100%;
+}
+
+.SidebarContent .Question {
+  width: 100%;
+  height: 50px;
+  list-style-type: none;
+  margin: 0%;
+  display: flex;
+  flex-direction: row;
+  color: white;
+  justify-content: center;
+  align-items: center;
+}
+
+.SidebarContent .Question #Text {
+  flex: 70%;
+  display: grid;
+  place-items: center;
+}
+
+.SidebarContent #Selected {
+  width: 100%;
+  height: 50px;
+  list-style-type: none;
+  margin: 0%;
+  display: flex;
+  flex-direction: row;
+  color: white;
+  justify-content: center;
+  align-items: center;
+  background-color: #212529;
+}
+
+.SidebarContent .Question #Remove {
+  display: none;
+  margin-right: 5px;
+  appearance: none;
+  background-color: white;
+  border: 2px solid #1A1A1A;
+  border-radius: 15px;
+  color: #3B3B3B;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: normal;
+  outline: none;
+  text-align: center;
+  text-decoration: none;
+  transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  width: 15%;
+  will-change: transform;
+}
+
+.SidebarContent .Question:hover {
+  cursor: pointer;
+  background-color: #212529;
+}
+
+.SidebarContent .Question:hover #Remove {
+  display: block;
+}
+
+.SidebarContent .Question #Remove:hover {
+  color: #2f4050;
+  background-color: #fff;
+  transform: translateY(-2px);
+}
+
+.SidebarContent .Question #Remove:disabled {
+  pointer-events: none;
+}
+
+.SidebarContent .Question #Remove:active {
+  box-shadow: none;
+  transform: translateY(0);
+}
+
+.SidebarContent .Add {
+  width: 100%;
+  height: 50px;
+  list-style-type: none;
+  margin: 0%;
+  display: flex;
+  flex-direction: row;
+  color: white;
+  justify-content: center;
+  align-items: center;
+}
+
+.SidebarContent .Add #AddButton {
+  appearance: none;
+  background-color: white;
+  border: 2px solid #1A1A1A;
+  border-radius: 15px;
+  color: #3B3B3B;
+  cursor: pointer;
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: normal;
+  margin: 0;
+  outline: none;
+  text-align: center;
+  text-decoration: none;
+  transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  width: 30%;
+  will-change: transform;
+}
+
+.SidebarContent .Add #AddButton:disabled {
+  pointer-events: none;
+}
+
+.SidebarContent .Add #AddButton:hover {
+  color: #2f4050;
+  background-color: #fff;
+  transform: translateY(-2px);
+}
+
+.SidebarContent .Add #AddButton:active {
+  box-shadow: none;
+  transform: translateY(0);
+}
+
+.SidebarContent .ProblemSetName {
+  width: 100%;
+  height: 50px;
+  list-style-type: none;
+  margin: 0%;
+  display: flex;
+  flex-direction: row;
+  color: white;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  background-color: transparent;
+  border: none;
+  text-align: center;
+}
+
+.SidebarContent .ProblemSetName:focus {
+  outline-width: 0;
+}
+
+.SidebarContent .Submit {
+  position: absolute;
+  bottom: 0;
+}

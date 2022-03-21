@@ -7,7 +7,7 @@ class Navigation extends Component {
     e.preventDefault();
     this.props.onClick(id);
   }
-
+  
   render() {
     return (
       <Navbar bg="dark" variant="dark" expand="lg">
