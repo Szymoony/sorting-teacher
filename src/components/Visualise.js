@@ -64,8 +64,7 @@ class Visualise extends Component {
           ></SortableContainer>
         </Row>
         <Row
-          className="justify-content-md-center"
-          style={{ marginTop: "100px", justifyItems: "center" }}
+          className="justify-content-md-center mt-3"
         >
           <Col lg="7">
             <ProgressBar now={percentage} label={`${percentage}%`} />
@@ -113,18 +112,12 @@ class Visualise extends Component {
   }
 
   validate() {
-    if (this.state.currentStep === this.steps.length) {
-      // TODO: Change alert to something else.
-      alert("Done!");
+    const items = this.state.items;
+    const count = this.state.currentStep;
+    if (JSON.stringify(items) === JSON.stringify(this.steps[count])) {
+      this.setState({ currentStep: this.state.currentStep + 1 });
     } else {
-      const items = this.state.items;
-      const count = this.state.currentStep;
-      if (JSON.stringify(items) === JSON.stringify(this.steps[count])) {
-        this.setState({ currentStep: this.state.currentStep + 1 });
-      } else {
-        alert("Wrong Relocation!");
-        // console.log(items, this.steps[count]);
-      }
+      alert("Wrong Relocation!");
     }
   }
 }
