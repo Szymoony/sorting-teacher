@@ -217,9 +217,7 @@ class ProblemSetCreator extends Component {
   render() {
     const questions = this.state.questions;
     const sortSelect =
-      questions.length ===
-      0 ? // sortSelect only displays radio inputs if there is at least 1 question
-      null : (
+      questions.length === 0 ? null : ( // sortSelect only displays radio inputs if there is at least 1 question
         <SortSelection
           id="radioSorts"
           selectedSort={this.state.selectedSorts[this.state.currentQuestion]}

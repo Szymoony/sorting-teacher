@@ -63,9 +63,7 @@ class Visualise extends Component {
             onSortEnd={this.onSortEnd}
           ></SortableContainer>
         </Row>
-        <Row
-          className="justify-content-md-center mt-3"
-        >
+        <Row className="justify-content-md-center mt-3">
           <Col lg="7">
             <ProgressBar now={percentage} label={`${percentage}%`} />
           </Col>

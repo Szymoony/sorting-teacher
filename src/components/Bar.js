@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const Bar = styled.div`
   font-size: 20px;
-  background-color: #B0E0E6;
+  background-color: #b0e0e6;
   color: white;
   text-align: center;
   display: inline-block;
