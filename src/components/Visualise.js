@@ -48,13 +48,7 @@ class Visualise extends Component {
         <Row>
           <SortableContainer
             children={items.map((value, index) => (
-              <SortableItem
-                key={`item-${index}`}
-                index={index}
-                value={value}
-                _height={`${String(Math.min(400, 30 + (value - 1) * 5))}px`}
-                _width={'40px'}
-              />
+              <SortableItem key={`item-${index}`} index={index} value={value} _height={`${String(Math.min(400, 30 + (value - 1) * 5))}px`} _width={'40px'} />
             ))}
             axis='x'
             onSortEnd={this.onSortEnd}
@@ -80,9 +74,7 @@ class Visualise extends Component {
         <Col md={8}>{this.createBars()}</Col>
         <Col md={4}>
           <Container className='my-3'>
-            <h1 style={{ fontSize: '20px' }}>
-              History ({this.props.algoType.charAt(0).toUpperCase() + this.props.algoType.slice(1) + ' Sort'})
-            </h1>
+            <h1 style={{ fontSize: '20px' }}>History ({this.props.algoType.charAt(0).toUpperCase() + this.props.algoType.slice(1) + ' Sort'})</h1>
             <History steps={this.steps} id={this.state.currentStep} />
           </Container>
         </Col>

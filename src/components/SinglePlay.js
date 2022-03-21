@@ -1,6 +1,7 @@
 import React, { createRef } from 'react';
 import { Form, Row, Col, Button, Container } from 'react-bootstrap';
 import Visualise from './Visualise';
+import { randomListNoDup } from '../assets/RandomItems';
 
 class SinglePlay extends React.Component {
   constructor(props) {
@@ -103,20 +104,5 @@ class SinglePlay extends React.Component {
     }
   }
 }
-
-const randomListNoDup = (totalIndex, selectingNumber) => {
-  let randomIndexArray = [];
-  for (let i = 0; i < selectingNumber; i++) {
-    let randomNum = Math.floor(Math.random() * (totalIndex - 1) + 1);
-    if (randomIndexArray.indexOf(randomNum) === -1) {
-      randomIndexArray.push(randomNum);
-    } else {
-      //if the randomNum is already in the array retry
-      i--;
-    }
-  }
-
-  return randomIndexArray;
-};
 
 export default SinglePlay;
