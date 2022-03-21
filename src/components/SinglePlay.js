@@ -81,7 +81,7 @@ class SinglePlay extends React.Component {
 
               <Row className="mx-3 my-5">
                 <Button variant="primary" type="submit">
-                  Start
+                  {this.state.mode === "select" ? "Start" : "Reset"}
                 </Button>
               </Row>
             </Form>
@@ -104,7 +104,11 @@ class SinglePlay extends React.Component {
       alert("Please enter the valid list");
     } else {
       this.list = this.listRef.value;
-      this.setState({ mode: "play" });
+      if (this.state.mode === "play") {
+        this.setState({ mode: "select" });
+      } else {
+        this.setState({ mode: "play" });
+      }
     }
   }
 }
