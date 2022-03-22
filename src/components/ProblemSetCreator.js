@@ -8,9 +8,10 @@ import SortSelection from './SortSelection';
 import Submit from './Submit';
 import '../assets/ProblemSetCreator.css';
 
-const SortableItem = sortableElement(({ index, itemIndex, value, _height, _width, handleChange }) => (
-  <Bar height={_height} width={_width}>
+const SortableItem = sortableElement(({ index, itemIndex, value, _height, _width, handleChange, handleRemoveBar }) => (
+  <Bar className="Bar" height={_height} width={_width}>
     <input id='value' value={value} onChange={(e) => handleChange(itemIndex, e)} />
+    <button className="removeBar" onClick={() => handleRemoveBar(itemIndex)}>x</button>
   </Bar>
 ));
 
@@ -32,11 +33,11 @@ class ProblemSetCreator extends Component {
     this.state = {
       questions: [
         {
-          values: this.generateItems(10), // array of arrays of values for each column in each question
+          values: this.generateItems(7), // array of arrays of values for each column in each question
         },
       ],
       currentQuestion: 0, // index of questions, determines which question to display
-      selectedSorts: ['bubble'], // holds a number representing each sort for each question from questions
+      selectedSorts: ['bubble'], // holds a string representing each sort for each question from questions
       problemSetName: 'ProblemSetName',
     };
     this.handleClick = this.handleClick.bind(this);
@@ -46,8 +47,37 @@ class ProblemSetCreator extends Component {
     this.handleCheck = this.handleCheck.bind(this);
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleRemoveBar = this.handleRemoveBar.bind(this);
+    this.handleAddBar = this.handleAddBar.bind(this);
   }
 
+  // handles the user removing a bar from a question in the problem set
+  handleRemoveBar(itemIndex) {
+    const questions = this.state.questions.slice();
+    const valuesObj = questions[this.state.currentQuestion]
+    if (valuesObj.values.length === 3) {  // min
+      return null;
+    }
+    valuesObj.values.splice(itemIndex, 1);
+    this.setState({
+      questions: questions
+    });
+  }
+
+  // handles adding a new bar to a question
+  handleAddBar() {
+    const questions = this.state.questions.slice();
+    const valuesObj = questions[this.state.currentQuestion];
+    if (valuesObj.values.length === 12) {  // min
+      return null;
+    }
+    valuesObj.values.push(this.generateItems(1));
+    this.setState({
+      questions: questions
+    });
+  }
+
+  // handles the user submitting the problem set
   handleSubmit() {
     let problemSetName = this.state.problemSetName;
     let questions = this.state.questions;
@@ -69,6 +99,7 @@ class ProblemSetCreator extends Component {
     console.log('problem set is valid');
   }
 
+  // handles the user selecting a sorting algorithm
   handleCheck(event) {
     let index = this.state.currentQuestion;
     let sortId = event.target.id;
@@ -97,6 +128,9 @@ class ProblemSetCreator extends Component {
       let elemValue = Math.floor(Math.random() * 49 + 1);
       items.push(elemValue);
     }
+    if (items.length === 1) {
+      return items[0];
+    }
     return items;
   }
 
@@ -119,11 +153,12 @@ class ProblemSetCreator extends Component {
             _height={String(Math.min(400, 30 + (value - 1) * 5)) + 'px'}
             _width={'40px'}
             handleChange={this.handleChange}
+            handleRemoveBar={this.handleRemoveBar}
           />
-        ))}
+        )).concat(<button id="addBar" onClick={this.handleAddBar}>+</button>)}
         axis='x'
         onSortEnd={this.onSortEnd}
-      ></SortableContainer>
+      />
     );
   }
 
@@ -140,7 +175,7 @@ class ProblemSetCreator extends Component {
   // handles adding a new question
   handleAdd() {
     const questions = this.state.questions;
-    const values = this.generateItems(10); // randomly generate values
+    const values = this.generateItems(7); // randomly generate values
     const selectedSorts = this.state.selectedSorts;
     this.setState({
       questions: questions.concat([
@@ -153,6 +188,7 @@ class ProblemSetCreator extends Component {
     });
   }
 
+  // handles removing a question from the problem set
   handleRemove(qNumber) {
     // remove values object from right index in questions
     const questions = this.state.questions.slice();
@@ -177,6 +213,7 @@ class ProblemSetCreator extends Component {
     console.log(selectedSorts);
   }
 
+  // handles changing the input box on bars
   handleChange(itemIndex, event) {
     // change the value of the right item in the currentQuestion values array
     const questions = this.state.questions.slice();
@@ -201,6 +238,7 @@ class ProblemSetCreator extends Component {
     }
   }
 
+  // handles changing the name of the problem set
   handleNameChange(event) {
     let newValue = event.target.value;
     this.setState({
