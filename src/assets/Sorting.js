@@ -1,5 +1,5 @@
 export function bubbleSort(array) {
-  let steps = [];
+  let steps = [array.slice()];
   let isSwapped = false;
 
   for (let i = 0; i < array.length; i++) {
@@ -24,7 +24,7 @@ export function bubbleSort(array) {
 }
 
 export function insertionSort(array) {
-  let steps = [];
+  let steps = [array.slice()];
   for (let i = 1; i < array.length; i++) {
     let currentValue = array[i];
     let j;
@@ -39,7 +39,7 @@ export function insertionSort(array) {
 }
 
 export function selectionSort(array) {
-  let steps = [];
+  let steps = [array.slice()];
   for (let i = 0; i < array.length - 1; i++) {
     let minIndex = i;
     for (let j = i + 1; j < array.length; j++) {

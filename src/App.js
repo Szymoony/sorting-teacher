@@ -1,46 +1,23 @@
-import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navigation from './components/Navigation';
 import Home from './components/Home';
 import SinglePlay from './components/SinglePlay';
 import ProblemSet from './components/ProblemSet';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      mode: 'problemSet',
-    };
-  }
-
-  render() {
-    let display_type = null;
-    const { mode } = this.state;
-    if (mode === 'main') {
-      display_type = <Home />;
-    } else if (mode === 'single') {
-      display_type = <SinglePlay />;
-    } else if (mode === 'problemSet') {
-      display_type = <ProblemSet />;
-    }
-
-    return (
+function App() {
+  return (
+    <BrowserRouter>
       <div className='App'>
-        <Navigation
-          onClick={(id) => {
-            if (id === 0) {
-              this.setState({ mode: 'main' });
-            } else if (id === 1) {
-              this.setState({ mode: 'single' });
-            } else if (id === 2) {
-              this.setState({ mode: 'problemSet' });
-            }
-          }}
-        />
-        {display_type}
+        <Navigation />
+        <Routes>
+          <Route path='/' element={<Home />}></Route>
+          <Route path='/practice' element={<SinglePlay />}></Route>
+          <Route path='/problemset' element={<ProblemSet />}></Route>
+        </Routes>
       </div>
-    );
-  }
+    </BrowserRouter>
+  );
 }
 
 export default App;

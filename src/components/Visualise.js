@@ -29,7 +29,7 @@ class Visualise extends Component {
     super(props);
     this.state = {
       items: props.list.slice(),
-      currentStep: 0,
+      currentStep: 1,
     };
     this.steps = this.updateSteps();
   }
@@ -42,7 +42,7 @@ class Visualise extends Component {
 
   createBars() {
     const { items } = this.state;
-    const percentage = ((this.state.currentStep / this.steps.length) * 100).toFixed(1);
+    const percentage = (((this.state.currentStep - 1) / (this.steps.length - 1)) * 100).toFixed(1);
     return (
       <Container>
         <Row>
@@ -97,8 +97,16 @@ class Visualise extends Component {
   validate() {
     const items = this.state.items;
     const count = this.state.currentStep;
+    if (this.steps.length === this.state.currentStep) {
+      alert('Done');
+      return;
+    }
     if (JSON.stringify(items) === JSON.stringify(this.steps[count])) {
-      this.setState({ currentStep: this.state.currentStep + 1 });
+      this.setState({ currentStep: this.state.currentStep + 1 }, () => {
+        if (this.steps.length === this.state.currentStep) {
+          alert('Done');
+        }
+      });
     } else {
       alert('Wrong Relocation!');
     }
