@@ -54,64 +54,64 @@ export function selectionSort(array) {
   return unique.slice();
 }
 
-function merge(arr1, arr2) {
-  let i = 0;
-  let j = 0;
-  let results = [];
-  while (i < arr1.length && j < arr2.length) {
-    if (arr2[j] > arr1[i]) {
-      results.push(arr1[i]);
-      i++;
-    } else {
-      results.push(arr2[j]);
-      j++;
-    }
-  }
-  while (i < arr1.length) {
-    results.push(arr1[i]);
-    i++;
-  }
-  while (j < arr2.length) {
-    results.push(arr2[j]);
-    j++;
-  }
-  return results;
-}
+// function merge(arr1, arr2) {
+//   let i = 0;
+//   let j = 0;
+//   let results = [];
+//   while (i < arr1.length && j < arr2.length) {
+//     if (arr2[j] > arr1[i]) {
+//       results.push(arr1[i]);
+//       i++;
+//     } else {
+//       results.push(arr2[j]);
+//       j++;
+//     }
+//   }
+//   while (i < arr1.length) {
+//     results.push(arr1[i]);
+//     i++;
+//   }
+//   while (j < arr2.length) {
+//     results.push(arr2[j]);
+//     j++;
+//   }
+//   return results;
+// }
 
-function mergeSort(arr) {
-  if (arr.length <= 1) return arr;
+// function mergeSort(arr) {
+//   if (arr.length <= 1) return arr;
 
-  let mid = Math.floor(arr.length / 2);
-  let left = mergeSort(arr.slice(0, mid));
-  let right = mergeSort(arr.slice(mid));
-  return merge(left, right);
-}
+//   let mid = Math.floor(arr.length / 2);
+//   let left = mergeSort(arr.slice(0, mid));
+//   let right = mergeSort(arr.slice(mid));
+//   return merge(left, right);
+// }
 
-function partition(arr, start, end) {
-  // Last element as the pivot
-  let pivotValue = arr[end];
-  let pivotIndex = start;
-  for (let i = start; i < end; i++) {
-    if (arr[i] < pivotValue) {
-      [arr[i], arr[pivotIndex]] = [arr[pivotIndex], arr[i]];
+// function partition(arr, start, end) {
+//   // Last element as the pivot
+//   let pivotValue = arr[end];
+//   let pivotIndex = start;
+//   for (let i = start; i < end; i++) {
+//     if (arr[i] < pivotValue) {
+//       [arr[i], arr[pivotIndex]] = [arr[pivotIndex], arr[i]];
 
-      pivotIndex++;
-    }
-  }
+//       pivotIndex++;
+//     }
+//   }
 
-  // Putting the pivot value in the middle
-  [arr[pivotIndex], arr[end]] = [arr[end], arr[pivotIndex]];
-  return pivotIndex;
-}
+//   // Putting the pivot value in the middle
+//   [arr[pivotIndex], arr[end]] = [arr[end], arr[pivotIndex]];
+//   return pivotIndex;
+// }
 
-function quickSort(arr, start, end) {
-  if (start >= end) {
-    return;
-  }
+// function quickSort(arr, start, end) {
+//   if (start >= end) {
+//     return;
+//   }
 
-  let index = partition(arr, start, end);
+//   let index = partition(arr, start, end);
 
-  quickSort(arr, start, index - 1);
-  quickSort(arr, index + 1, end);
-  return arr;
-}
+//   quickSort(arr, start, index - 1);
+//   quickSort(arr, index + 1, end);
+//   return arr;
+// }
