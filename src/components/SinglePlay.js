@@ -90,8 +90,27 @@ class SinglePlay extends React.Component {
 
   validate(e) {
     e.preventDefault();
-    if (!this.listRef.value) {
-      alert('Please enter the valid list');
+
+    const isValidInput = () => {
+      const testVal = this.listRef.value;
+      const regex = /\[(?:\d+,\s*)+\d+\]/;
+      if (regex.test(testVal)) {
+        const convList = JSON.parse(testVal);
+        let isSafe = false;
+        for (let i = 1; i < convList.length; i++) {
+          if (convList[i - 1] > convList[i]) {
+            return true;
+          }
+        }
+        if (!isSafe) {
+          return false;
+        }
+      }
+      return false;
+    };
+
+    if (!isValidInput()) {
+      alert('Please enter the valid list (No uniform data, No sorted data)');
     } else {
       this.list = this.listRef.value;
       if (this.state.mode === 'play') {
