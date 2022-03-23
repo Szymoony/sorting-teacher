@@ -3,13 +3,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Navigation from './components/Navigation';
 import Home from './components/Home';
 import SinglePlay from './components/SinglePlay';
-import ProblemSetCreator from './components/ProblemSetCreator';
+import ProblemSet from './components/ProblemSet';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      mode: 'main',
+      mode: 'problemSet',
     };
   }
 
@@ -21,7 +21,7 @@ class App extends Component {
     } else if (mode === 'single') {
       display_type = <SinglePlay />;
     } else if (mode === 'problemSet') {
-      display_type = <ProblemSetCreator />;
+      display_type = <ProblemSet />;
     }
 
     return (
