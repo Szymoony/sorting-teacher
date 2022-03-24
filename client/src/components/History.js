@@ -1,4 +1,4 @@
-function History(props) {
+const History = (props) => {
   let histories = [];
   for (let i = 0; i < props.id; i++) {
     histories.push(<li key={`history-${i}`}>{JSON.stringify(props.steps[i]).replaceAll(',', ', ')}</li>);
@@ -8,6 +8,6 @@ function History(props) {
       <ol>{histories}</ol>
     </div>
   );
-}
+};
 
 export default History;

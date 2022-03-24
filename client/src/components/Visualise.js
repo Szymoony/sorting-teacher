@@ -1,9 +1,9 @@
 import React, { useState, useRef } from 'react';
 import { Container, Row, Button, ProgressBar, Col } from 'react-bootstrap';
-import Bar from './Bar';
-import History from './History';
 import { sortableContainer, sortableElement } from 'react-sortable-hoc';
 import { arrayMoveImmutable } from 'array-move';
+import Bar from './Bar';
+import History from './History';
 import { bubbleSort, insertionSort, selectionSort } from '../assets/Sorting';
 
 const SortableItem = sortableElement(({ value, _width }) => {
@@ -50,7 +50,7 @@ const Visualise = (props) => {
   };
 
   const createBars = () => {
-    const percentage = (((currentStep - 1) / (steps.length - 1)) * 100).toFixed(1);
+    const percentage = (((currentStep - 1) / (steps.current.length - 1)) * 100).toFixed(1);
     return (
       <Container>
         <Row>
@@ -76,14 +76,14 @@ const Visualise = (props) => {
     );
   };
 
-  const validate = async () => {
-    if (steps.length === currentStep) {
+  const validate = () => {
+    if (steps.current.length === currentStep) {
       alert('Done');
       return;
     }
-    if (JSON.stringify(items) === JSON.stringify(steps[currentStep])) {
-      await setCurrentStep(currentStep + 1);
-      if (steps.length === currentStep) {
+    if (JSON.stringify(items) === JSON.stringify(steps.current[currentStep])) {
+      setCurrentStep(currentStep + 1);
+      if (steps.current.length === currentStep) {
         alert('Done');
       }
     } else {
@@ -97,7 +97,7 @@ const Visualise = (props) => {
       <Col md={4}>
         <Container className='my-3'>
           <h1 style={{ fontSize: '20px' }}>History ({props.algoType.charAt(0).toUpperCase() + props.algoType.slice(1) + ' Sort'})</h1>
-          <History steps={steps} id={currentStep} />
+          <History steps={steps.current} id={currentStep} />
         </Container>
       </Col>
     </Row>
