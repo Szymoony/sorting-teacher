@@ -26,29 +26,17 @@ const linkStyle = { textDecoration: 'none', color: 'inherit', cursor: 'pointer' 
 
 const ProblemSetList = () => {
   const [problemSets, setProblemSets] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setError(null);
-        setProblemSets([]);
-        setLoading(true);
         const response = await axios.get('http://localhost:3001/problemset');
         setProblemSets(response.data);
-      } catch(e) {
-        console.log(e.response);
-        setError(e);
+      } catch (e) {
+        console.log(e);
       }
-      setLoading(false);
     };
     fetchData();
   }, []);
-
-  if (loading) return <div>Loading...</div>
-  if (error) return <div>Error occurred!</div>
-  if (!problemSets) return null;
 
   const deleteHandler = (id) => {
     const deleteData = async (id) => {
@@ -67,7 +55,7 @@ const ProblemSetList = () => {
         <span>
           <ButtonGroup size='sm'>
             <Button variant='primary'>Leaderboard</Button>
-            <Button variant='danger' onClick={console.log(index)}>
+            <Button variant='danger' onClick={() => deleteHandler(index)}>
               Delete
             </Button>
           </ButtonGroup>

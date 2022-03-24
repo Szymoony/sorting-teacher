@@ -107,9 +107,9 @@ class ProblemSetCreator extends Component {
       await axios.post('http://localhost:3001/problemset/create', {
         title: this.state.problemSetName,
         problems: listProblems,
-      }).then(window.location.href='/problemset');
-    }
-    catch(e) {
+      });
+      window.location.href = '/problemset';
+    } catch (e) {
       console.log(e, 'creation error');
     }
   }
@@ -123,7 +123,6 @@ class ProblemSetCreator extends Component {
     this.setState({
       selectedSorts: selectedSorts,
     });
-    console.log(selectedSorts);
   }
 
   onSortEnd = ({ oldIndex, newIndex }) => {
@@ -187,7 +186,6 @@ class ProblemSetCreator extends Component {
   // qNumber is the question number i.e.
   // the index of the question that was clicked, in the state
   handleClick(qNumber) {
-    console.log(qNumber);
     this.setState({
       currentQuestion: qNumber,
     });
@@ -223,7 +221,6 @@ class ProblemSetCreator extends Component {
       newIndex = this.state.currentQuestion; // else just stay where you are
     }
     questions.splice(qNumber, 1);
-    console.log(selectedSorts);
     selectedSorts.splice(qNumber, 1);
 
     this.setState({
@@ -231,7 +228,6 @@ class ProblemSetCreator extends Component {
       currentQuestion: newIndex,
       selectedSorts: selectedSorts,
     });
-    console.log(selectedSorts);
   }
 
   // handles changing the input box on bars

@@ -1,46 +1,46 @@
 const fs = require('fs');
 const router = require('express').Router();
 
-const filepath = './data/problemsets.json';
+const filepath = '../data/problemsets.json';
 
 router.get('/', (req, res) => {
-  try {
-    const data = JSON.parse(fs.readFileSync(filepath, 'utf8'));
-    return res.json(data);
-  } catch (err) {
-    console.log('Get /', err);
-  }
+  fs.readFile(filepath, 'utf8', (err, data) => {
+    return res.json(JSON.parse(data));
+  });
 });
 
 router.get('/:id', (req, res) => {
-  try {
-    const data = JSON.parse(fs.readFileSync(filepath, 'utf8'))[req.params.id];
-    return res.json(data);
-  } catch (err) {
-    console.log('Get /:id', err);
-  }
+  fs.readFile(filepath, 'utf8', (err, data) => {
+    return res.json(JSON.parse(data)[req.params.id]);
+  });
 });
 
 router.post('/create', (req, res) => {
-  let data = JSON.parse(fs.readFileSync(filepath, 'utf8'));
-  data.push(req.body);
-  try {
-    fs.writeFileSync(filepath, JSON.stringify(data));
-    res.sendStatus(200);
-  } catch (err) {
-    console.log('POST /create', err);
-  }
+  fs.readFile(filepath, 'utf8', (err, data) => {
+    let t = JSON.parse(data);
+    t.push(req.body);
+    fs.writeFile(filepath, JSON.stringify(t), (err) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      res.sendStatus(200);
+    })
+  });
 });
 
 router.delete('/:id', (req, res) => {
-  let data = JSON.parse(fs.readFileSync(filepath, 'utf8'));
-  data.splice(req.params.id, 1);
-  try {
-    fs.writeFileSync(filepath, JSON.stringify(data));
-    res.sendStatus(200);
-  } catch (err) {
-    console.log('POST /create', err);
-  }
+  fs.readFile(filepath, 'utf8', (err, data) => {
+    let t = JSON.parse(data);
+    t.splice(req.params.id, 1);
+    fs.writeFile(filepath, JSON.stringify(t), (err) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      res.sendStatus(200);
+    })
+  })
 });
 
 module.exports = router;
