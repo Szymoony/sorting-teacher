@@ -28,7 +28,6 @@ router.post('/create', (req, res) => {
       fs.readFile(leaderboardPath, 'utf8', (err, data) => {
         let p = JSON.parse(data);
         p.push([]);
-        console.log('POST', p);
         fs.writeFile(leaderboardPath, JSON.stringify(p), (err) => {
           if (err) {
             console.error(err);
