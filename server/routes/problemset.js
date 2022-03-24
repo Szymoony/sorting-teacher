@@ -2,6 +2,7 @@ const fs = require('fs');
 const router = require('express').Router();
 
 const filepath = '../data/problemsets.json';
+const leaderboardPath = '../data/leaderboards.json';
 
 router.get('/', (req, res) => {
   fs.readFile(filepath, 'utf8', (err, data) => {
@@ -24,8 +25,19 @@ router.post('/create', (req, res) => {
         console.error(err);
         return;
       }
-      res.sendStatus(200);
-    })
+      fs.readFile(leaderboardPath, 'utf8', (err, data) => {
+        let p = JSON.parse(data);
+        p.push([]);
+        console.log('POST', p);
+        fs.writeFile(leaderboardPath, JSON.stringify(p), (err) => {
+          if (err) {
+            console.error(err);
+            return;
+          }
+          res.sendStatus(200);
+        });
+      });
+    });
   });
 });
 
@@ -38,9 +50,19 @@ router.delete('/:id', (req, res) => {
         console.error(err);
         return;
       }
-      res.sendStatus(200);
-    })
-  })
+      fs.readFile(leaderboardPath, 'utf8', (err, data) => {
+        let p = JSON.parse(data);
+        p.splice(req.params.id, 1);
+        fs.writeFile(leaderboardPath, JSON.stringify(p), (err) => {
+          if (err) {
+            console.error(err);
+            return;
+          }
+          res.sendStatus(200);
+        });
+      });
+    });
+  });
 });
 
 module.exports = router;

@@ -193,7 +193,7 @@ class Leaderboard extends Component {
         <Table id='lBoard' striped bordered hover>
           <thead>
             <tr>
-              <td colspan='10000'>
+              <td colSpan='10000'>
                 <div id='lbTitleContainer'>
                   <h2 id='lbTitle'>{this.state.problemSetName + ' - Leaderboard'}</h2>
                   {nameInput}

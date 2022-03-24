@@ -1,45 +1,28 @@
-import React, { Component } from 'react';
+import { useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import Leaderboard from './Leaderboard.js';
 
-class Leaders extends Component {
-  constructor(props) {
-    super(props);
-    // for now scores are randomly generated
-    this.state = {
-      users: [{name: "string", score: this.generateItems(1)},
-              {name: "string", score: this.generateItems(1)},
-              {name: "string", score: this.generateItems(1)},
-              {name: "string", score: this.generateItems(1)},
-              {name: "string", score: this.generateItems(1)},
-              {name: "string", score: this.generateItems(1)},
-              {name: "string", score: this.generateItems(1)},
-              {name: "string", score: this.generateItems(1)},
-              {name: "denis", score: this.generateItems(1)},
-              {name: "string", score: this.generateItems(1)},
-              {name: "string", score: this.generateItems(1)},],
-      paginate: 10  // number of usernames per page
+const Leaders = (props) => {
+  const [users, setUsers] = useState([]);
+  const [paginate, setPaginate] = useState(10);
+  const { id } = useParams(props);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await axios.get(`http://localhost:3001/problemset/leaderboard/${id}`);
+      setUsers(response.data);
     };
-  }
+    fetchData();
+  }, [id]);
 
-  generateItems(n) {
-    const items = [];
-    for (let i = 1; i <= n; i++) {
-      let elemValue = Math.floor(Math.random() * 49 + 1);
-      items.push(elemValue);
-    }
-    if (items.length === 1) {
-      return items[0];
-    }
-    return items;
-  }
+  if (users.length === 0) return <div>No data...</div>;
 
-  render() {
-    return (
-      <div>
-        <Leaderboard users={this.state.users} paginate={this.state.paginate} problemSetName={"ProblemSet1"}/>
-      </div>
-    );
-  }
-}
+  return (
+    <div className='mx-3'>
+      <Leaderboard users={users} paginate={paginate} problemSetName={'ProblemSet1'} />
+    </div>
+  );
+};
 
 export default Leaders;

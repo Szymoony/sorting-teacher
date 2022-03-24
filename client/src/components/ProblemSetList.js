@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Container, ListGroup, ButtonGroup, Button } from 'react-bootstrap';
-import ProblemSetCreator from './ProblemSetCreator';
 import { Route, Routes, Link } from 'react-router-dom';
 import axios from 'axios';
+import Leaders from './Leaders';
+import ProblemSetCreator from './ProblemSetCreator';
 import ProblemSet from './ProblemSet';
 
 const plusButtonStyle = {
@@ -54,7 +55,9 @@ const ProblemSetList = () => {
         </Link>
         <span>
           <ButtonGroup size='sm'>
-            <Button variant='primary'>Leaderboard</Button>
+            <Link to={`leaderboard/${index}`}>
+              <Button variant='primary'>Leaderboard</Button>
+            </Link>
             <Button variant='danger' onClick={() => deleteHandler(index)}>
               Delete
             </Button>
@@ -81,7 +84,8 @@ const ProblemSetList = () => {
   return (
     <Routes>
       <Route path='/' element={contentList}></Route>
-      <Route path='/:id/*' element={<ProblemSet />} />
+      <Route path='/:id' element={<ProblemSet />} />
+      <Route path='/leaderboard/:id/' element={<Leaders />} />
       <Route path='/create' element={<ProblemSetCreator />} />
     </Routes>
   );
