@@ -46,8 +46,8 @@ class SinglePlay extends React.Component {
                     }}
                   >
                     <option>Bubble Sort</option>
-                    <option>Insertion Sort</option>
                     <option>Selection Sort</option>
+                    <option>Insertion Sort</option>
                     {/* <option>Merge Sort</option>
                     <option>Quick Sort</option> */}
                   </Form.Control>

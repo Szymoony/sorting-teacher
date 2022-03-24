@@ -1,8 +1,6 @@
 const fs = require('fs');
 const router = require('express').Router();
 
-var i = 1;
-
 const filepath = './data/problemsets.json';
 
 router.get('/', (req, res) => {
@@ -10,33 +8,39 @@ router.get('/', (req, res) => {
     const data = JSON.parse(fs.readFileSync(filepath, 'utf8'));
     return res.json(data);
   } catch (err) {
-    console.log(err);
+    console.log('Get /', err);
   }
 });
 
-//whenever "/create" is called, index of file increases by one.
-//Instead of "LIst of Nums", {algoType, listOfnum} will be added in the file
-router.post('/', (req, res) => {
-  fs.writeFile(`./data/problemset${i}.json`, 'LIST of NUMs', function (err) {});
-  fs.readFile(`./data/problemset${i}.json`, 'utf8', function (err, data) {
-    i++;
-    res.end(data);
-  });
-});
-//localhost:4000/delete/"2"
-router.delete('/:id', (req, res) => {
-  fs.unlink(`./data/problemset${req.params.id}.json`, function (err) {
-    console.log(`./data/problemset${req.params.id}.json`);
-    res.send('Deleted');
-  });
+router.get('/:id', (req, res) => {
+  try {
+    const data = JSON.parse(fs.readFileSync(filepath, 'utf8'))[req.params.id];
+    return res.json(data);
+  } catch (err) {
+    console.log('Get /:id', err);
+  }
 });
 
-router.put('/:id', (req, res) => {
-  fs.unlink(`./data/problemset${req.params.id}.json`, function (err) {
-    fs.writeFile(`./data/problemset${req.params.id}.json`, 'Contents UPdated', function (err) {
-      res.send('Updated');
-    });
-  });
+router.post('/create', (req, res) => {
+  let data = JSON.parse(fs.readFileSync(filepath, 'utf8'));
+  data.push(req.body);
+  try {
+    fs.writeFileSync(filepath, JSON.stringify(data));
+    res.sendStatus(200);
+  } catch (err) {
+    console.log('POST /create', err);
+  }
+});
+
+router.delete('/:id', (req, res) => {
+  let data = JSON.parse(fs.readFileSync(filepath, 'utf8'));
+  data.splice(req.params.id, 1);
+  try {
+    fs.writeFileSync(filepath, JSON.stringify(data));
+    res.sendStatus(200);
+  } catch (err) {
+    console.log('POST /create', err);
+  }
 });
 
 module.exports = router;

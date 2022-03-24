@@ -6,12 +6,15 @@ import { arrayMoveImmutable } from 'array-move';
 import Sidebar from './Sidebar';
 import SortSelection from './SortSelection';
 import Submit from './Submit';
+import axios from 'axios';
 import '../assets/ProblemSetCreator.css';
 
 const SortableItem = sortableElement(({ index, itemIndex, value, _height, _width, handleChange, handleRemoveBar }) => (
-  <Bar className="Bar" height={_height} width={_width}>
+  <Bar className='Bar' height={_height} width={_width}>
     <input id='value' value={value} onChange={(e) => handleChange(itemIndex, e)} />
-    <button className="removeBar" onClick={() => handleRemoveBar(itemIndex)}>x</button>
+    <button className='removeBar' onClick={() => handleRemoveBar(itemIndex)}>
+      x
+    </button>
   </Bar>
 ));
 
@@ -54,13 +57,14 @@ class ProblemSetCreator extends Component {
   // handles the user removing a bar from a question in the problem set
   handleRemoveBar(itemIndex) {
     const questions = this.state.questions.slice();
-    const valuesObj = questions[this.state.currentQuestion]
-    if (valuesObj.values.length === 3) {  // min
+    const valuesObj = questions[this.state.currentQuestion];
+    if (valuesObj.values.length === 3) {
+      // min
       return null;
     }
     valuesObj.values.splice(itemIndex, 1);
     this.setState({
-      questions: questions
+      questions: questions,
     });
   }
 
@@ -68,17 +72,18 @@ class ProblemSetCreator extends Component {
   handleAddBar() {
     const questions = this.state.questions.slice();
     const valuesObj = questions[this.state.currentQuestion];
-    if (valuesObj.values.length === 12) {  // min
+    if (valuesObj.values.length === 12) {
+      // min
       return null;
     }
     valuesObj.values.push(this.generateItems(1));
     this.setState({
-      questions: questions
+      questions: questions,
     });
   }
 
   // handles the user submitting the problem set
-  handleSubmit() {
+  async handleSubmit() {
     let problemSetName = this.state.problemSetName;
     let questions = this.state.questions;
     let message = '';
@@ -95,8 +100,18 @@ class ProblemSetCreator extends Component {
       return null;
     }
 
-    // write to external file here
-    console.log('problem set is valid');
+    let listProblems = [];
+    this.state.questions.map((item, index) => listProblems.push({ algorithms: this.state.selectedSorts[index], list: item['values'] }));
+
+    try {
+      await axios.post('http://localhost:3001/problemset/create', {
+        title: this.state.problemSetName,
+        problems: listProblems,
+      }).then(window.location.href='/problemset');
+    }
+    catch(e) {
+      console.log(e, 'creation error');
+    }
   }
 
   // handles the user selecting a sorting algorithm
@@ -144,18 +159,24 @@ class ProblemSetCreator extends Component {
     const values = valuesObj.values;
     return (
       <SortableContainer
-        children={values.map((value, index) => (
-          <SortableItem
-            key={`item-${index}`}
-            index={index}
-            itemIndex={index}
-            value={value}
-            _height={String(Math.min(400, 30 + (value - 1) * 5)) + 'px'}
-            _width={'40px'}
-            handleChange={this.handleChange}
-            handleRemoveBar={this.handleRemoveBar}
-          />
-        )).concat(<button id="addBar" onClick={this.handleAddBar}>+</button>)}
+        children={values
+          .map((value, index) => (
+            <SortableItem
+              key={`item-${index}`}
+              index={index}
+              itemIndex={index}
+              value={value}
+              _height={String(Math.min(400, 30 + (value - 1) * 5)) + 'px'}
+              _width={'40px'}
+              handleChange={this.handleChange}
+              handleRemoveBar={this.handleRemoveBar}
+            />
+          ))
+          .concat(
+            <button id='addBar' onClick={this.handleAddBar}>
+              +
+            </button>
+          )}
         axis='x'
         onSortEnd={this.onSortEnd}
       />

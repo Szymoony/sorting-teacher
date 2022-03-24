@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Container, ListGroup } from 'react-bootstrap';
+import { Container, ListGroup, ButtonGroup, Button } from 'react-bootstrap';
 import ProblemSetCreator from './ProblemSetCreator';
 import { Route, Routes, Link } from 'react-router-dom';
 import axios from 'axios';
-import { LinkContainer } from 'react-router-bootstrap';
 import ProblemSet from './ProblemSet';
 
 const plusButtonStyle = {
@@ -27,30 +26,59 @@ const linkStyle = { textDecoration: 'none', color: 'inherit', cursor: 'pointer' 
 
 const ProblemSetList = () => {
   const [problemSets, setProblemSets] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get('http://localhost:3001/problemset');
-      setProblemSets(response.data);
+      try {
+        setError(null);
+        setProblemSets([]);
+        setLoading(true);
+        const response = await axios.get('http://localhost:3001/problemset');
+        setProblemSets(response.data);
+      } catch(e) {
+        console.log(e.response);
+        setError(e);
+      }
+      setLoading(false);
     };
     fetchData();
   }, []);
 
+  if (loading) return <div>Loading...</div>
+  if (error) return <div>Error occurred!</div>
+  if (!problemSets) return null;
+
+  const deleteHandler = (id) => {
+    const deleteData = async (id) => {
+      await axios.delete(`http://localhost:3001/problemset/${id}`);
+    };
+    deleteData(id);
+    setProblemSets([...problemSets.slice(0, id), ...problemSets.slice(id + 1)]);
+  };
+
   const listProblemSets = () => {
-    let list = [];
-    for (let i = 0; i < problemSets.length; i++) {
-      list.push(
-        <LinkContainer style={linkStyle} key={`problem-${i}`} to={`${i}`}>
-          <ListGroup.Item>{problemSets[i]['title']}</ListGroup.Item>
-        </LinkContainer>
-      );
-    }
-    return list;
+    return problemSets.map((item, index) => (
+      <ListGroup.Item key={`problem-${index}`} style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Link style={linkStyle} to={`${index}`}>
+          {item['title']}
+        </Link>
+        <span>
+          <ButtonGroup size='sm'>
+            <Button variant='primary'>Leaderboard</Button>
+            <Button variant='danger' onClick={console.log(index)}>
+              Delete
+            </Button>
+          </ButtonGroup>
+        </span>
+      </ListGroup.Item>
+    ));
   };
 
   const contentList = (
-    <Container>
-      <Container className='mt-5'>
+    <Container className='mx-5 my-3'>
+      <Container>
         <h1>List of Problem Sets</h1>
         <ListGroup>{listProblemSets()}</ListGroup>
       </Container>
@@ -64,8 +92,8 @@ const ProblemSetList = () => {
 
   return (
     <Routes>
-      <Route path='/' element={contentList} />
-      <Route path='/:id' element={<ProblemSet />} />
+      <Route path='/' element={contentList}></Route>
+      <Route path='/:id/*' element={<ProblemSet />} />
       <Route path='/create' element={<ProblemSetCreator />} />
     </Routes>
   );

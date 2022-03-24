@@ -25,8 +25,8 @@ function SortSelection(props) {
             onChange={props.handleCheck}
             checked={props.selectedSort === 'insertion'}
           />
-          <Form.Check inline label='Merge Sort' name='group1' type={type} id='merge' onChange={props.handleCheck} checked={props.selectedSort === 'merge'} />
-          <Form.Check inline label='Quick Sort' name='group1' type={type} id='quick' onChange={props.handleCheck} checked={props.selectedSort === 'quick'} />
+          {/* <Form.Check inline label='Merge Sort' name='group1' type={type} id='merge' onChange={props.handleCheck} checked={props.selectedSort === 'merge'} />
+          <Form.Check inline label='Quick Sort' name='group1' type={type} id='quick' onChange={props.handleCheck} checked={props.selectedSort === 'quick'} /> */}
           {/* <Form.Check inline label='Heap Sort' name='group1' type={type} id='heap' onChange={props.handleCheck} checked={props.selectedSort === 'heap'} /> */}
         </div>
       ))}
