@@ -1,0 +1,24 @@
+.rank-header {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+#lbTitleContainer {
+  width: 100%;
+  overflow: hidden; /* will contain if #first is longer than #second */
+}
+
+#lbTitle {
+  width: 80%;
+  float: left; /* add this */
+}
+
+#nameInput {
+  margin-top: 10px;
+  overflow: hidden; /* if you don't want #second to wrap below #first */
+}
+
+.lbNavbar {
+  display: flex;
+  justify-content: center;
+}
