@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Navbar, Container, Nav } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
 import logo from '../logo.svg';
 
@@ -13,9 +12,12 @@ class Navigation extends Component {
     return (
       <Navbar bg='dark' variant='dark' expand='lg'>
         <Container>
-          <Navbar.Brand as={Link} to='/'>
-            <img alt='' draggable='false' src={logo} width='30' height='30' className='d-inline-block align-top' /> Sorting-Teacher
-          </Navbar.Brand>
+          <LinkContainer to='/'>
+            <Navbar.Brand>
+              <img alt='' draggable='false' src={logo} width='30' height='30' className='d-inline-block align-top' /> Sorting-Teacher
+            </Navbar.Brand>
+          </LinkContainer>
+
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='me-auto'>

@@ -1,51 +1,47 @@
 import { Container, ListGroup } from 'react-bootstrap';
-import { useState } from 'react';
-import ProblemSetCreator from './ProblemSetCreator';
-import '../assets/Sidebar.css';
+import { useParams } from 'react-router-dom';
+import { LinkContainer } from 'react-router-bootstrap';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
-function ProblemSet() {
-  const [mode, setMode] = useState('list');
+const linkStyle = { textDecoration: 'none', color: 'inherit', cursor: 'pointer' };
 
-  const contentList = (
-    <Container>
-      <Container className='mt-5'>
-        <h1>List of problem sets</h1>
-        <ListGroup>
-          <ListGroup.Item>Cras justo odio</ListGroup.Item>
-          <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
-          <ListGroup.Item>Morbi leo risus</ListGroup.Item>
-          <ListGroup.Item>Porta ac consectetur ac</ListGroup.Item>
-          <ListGroup.Item>Vestibulum at eros</ListGroup.Item>
-        </ListGroup>
-      </Container>
-      <button
-        onClick={() => setMode('create')}
-        className='mt-3'
-        style={{
-          backgroundColor: 'white',
-          border: '2px solid #1a1a1a',
-          borderRadius: '15px',
-          color: '#3b3b3b',
-          display: 'block',
-          fontSize: '16px',
-          fontWeight: '600',
-          lineHeight: 'normal',
-          margin: 0,
-          textAlign: 'center',
-          userSelect: 'none',
-          width: '190px',
-        }}
-      >
-        + Create Problem Set
-      </button>
+const ProblemSet = (props) => {
+  const [problem, setProblem] = useState([]);
+  const { id } = useParams(props);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await axios.get('http://localhost:3001/problemset');
+      setProblem(response.data[id]);
+    };
+    fetchData();
+  }, [id]);
+
+  const listQuestions = () => {
+    let list = [];
+    const questions = problem['problems'];
+    if (!questions) return;
+    for (let i = 0; i < questions.length; i++) {
+      list.push(
+        <LinkContainer style={linkStyle} key={`question-${i}`} to={`${i}`}>
+          <ListGroup.Item as='li'>{`${questions[i]['algorithms'].charAt(0).toUpperCase() + questions[i]['algorithms'].slice(1) + ' Sort'} - ${JSON.stringify(
+            questions[i]['list']
+          ).replaceAll(',', ', ')}`}</ListGroup.Item>
+        </LinkContainer>
+      );
+    }
+    return list;
+  };
+
+  return (
+    <Container className='mt-5'>
+      <h1>{problem['title']}</h1>
+      <ListGroup as='ol' numbered>
+        {listQuestions()}
+      </ListGroup>
     </Container>
   );
-
-  if (mode === 'list') {
-    return contentList;
-  } else if (mode === 'create') {
-    return <ProblemSetCreator />;
-  }
-}
+};
 
 export default ProblemSet;
