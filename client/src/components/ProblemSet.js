@@ -1,13 +1,11 @@
-import { Container, ListGroup } from 'react-bootstrap';
-import { useParams, Routes, Route } from 'react-router-dom';
-import { LinkContainer } from 'react-router-bootstrap';
+import { Container, ListGroup, Button } from 'react-bootstrap';
+import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import Question from './Question';
-
-const linkStyle = { textDecoration: 'none', color: 'inherit', cursor: 'pointer' };
+import Quiz from './Quiz';
 
 const ProblemSet = (props) => {
+  const [mode, setMode] = useState('lobby');
   const [problem, setProblem] = useState({ title: '', problems: [] });
   const { id } = useParams(props);
 
@@ -23,34 +21,28 @@ const ProblemSet = (props) => {
     const title = (algo, list) => {
       return `${algo.charAt(0).toUpperCase() + algo.slice(1)} Sort - ${JSON.stringify(list).replaceAll(',', ', ')}`;
     };
-    return questions.map((item, i) => (
-      <LinkContainer style={linkStyle} key={`question-${i}`} to={`${i}`}>
-        <ListGroup.Item as='li'>{title(item['algorithms'], item['list'])}</ListGroup.Item>
-      </LinkContainer>
-    ));
+    return questions.map((item, i) => <ListGroup.Item key={i} as='li'>{title(item['algorithms'], item['list'])}</ListGroup.Item>);
   };
 
-  const content = (
-    <Container className='mx-5 my-3'>
-      <h1>{problem['title']}</h1>
-      <ListGroup as='ol' numbered>
-        {listQuestions(problem['problems'])}
-      </ListGroup>
-    </Container>
-  );
+  let content = null;
 
-  if (problem['problems'].length === 0) {
-    return (
-      <div>Loading...</div>
+  if (mode === 'lobby') {
+    content = (
+      <Container className='mx-5 my-3'>
+        <h1>{problem['title']}</h1>
+        <ListGroup as='ol' numbered>
+          {listQuestions(problem['problems'])}
+        </ListGroup>
+        <Button variant='dark' className='mt-3' onClick={() => {setMode('inProgress')}}>
+          Start!
+        </Button>
+      </Container>
     );
-  } else {
-    return (
-      <Routes>
-        <Route path='/' element={content} />
-        <Route path='/:qid' element={<Question problem={problem['problems']} />} />
-      </Routes>
-    );
+  } else if (mode === 'inProgress') {
+    content = <Quiz problems={problem['problems']} />;
   }
+
+  return content;
 };
 
 export default ProblemSet;

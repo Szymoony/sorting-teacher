@@ -172,7 +172,7 @@ class ProblemSetCreator extends Component {
             />
           ))
           .concat(
-            <button id='addBar' onClick={this.handleAddBar}>
+            <button key='plusbutton' id='addBar' onClick={this.handleAddBar}>
               +
             </button>
           )}
