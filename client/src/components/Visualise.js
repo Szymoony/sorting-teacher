@@ -96,7 +96,7 @@ const Visualise = (props) => {
       <Col md={8}>{createBars()}</Col>
       <Col md={4}>
         <Container className='my-3'>
-          <h1 style={{ fontSize: '20px' }}>History ({props.algoType.charAt(0).toUpperCase() + props.algoType.slice(1) + ' Sort'})</h1>
+          <h1 style={{ fontSize: '20px' }}>History ({`${props.algoType.charAt(0).toUpperCase()}${props.algoType.slice(1)} Sort`})</h1>
           <History steps={steps.current} id={currentStep} />
         </Container>
       </Col>
