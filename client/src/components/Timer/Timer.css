@@ -1,0 +1,17 @@
+/* Credit: https://www.geeksforgeeks.org/create-a-stop-watch-using-reactjs/ */
+.timer{
+	margin : 3rem 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.digits{
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	font-size: 3rem;
+	color: #f5f5f5;
+}
+
+.mili-sec{
+	color: #e42a2a;
+}

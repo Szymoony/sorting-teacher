@@ -1,3 +1,4 @@
+// Credit https://github.com/CGally/react-leaderboard
 import React, { Component } from 'react';
 import '../assets/Leaderboard.css';
 import Table from 'react-bootstrap/Table';

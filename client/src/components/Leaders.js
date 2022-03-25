@@ -1,3 +1,4 @@
+// Credit: https://github.com/CGally/react-leaderboard
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';

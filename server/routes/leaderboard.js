@@ -9,4 +9,18 @@ router.get('/:id', (req, res) => {
   });
 });
 
+router.post('/:id', (req, res) => {
+  fs.readFile(filepath, 'utf8', (err, data) => {
+    let leaderboard = JSON.parse(data)[req.params.id];
+    leaderboard.push(JSON.parse(req.body));
+    fs.writeFile(filepath, JSON.stringify(leaderboard), (err) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      res.sendStatus(200);
+    });
+  });
+});
+
 module.exports = router;
