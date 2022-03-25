@@ -77,7 +77,7 @@ class ProblemSetCreator extends Component {
       // min
       return null;
     }
-    valuesObj.values.push(this.generateItems(1));
+    valuesObj.values.push(randomListNoDup(50, 1));
     this.setState({
       questions: questions,
     });
