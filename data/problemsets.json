@@ -1,1 +1,12 @@
-[{"title":"ProblemSetName","problems":[{"algorithms":"bubble","list":[13,33,48,25,5,23,34]}]},{"title":"A","problems":[{"algorithms":"bubble","list":[44,30,31,18,44,30,7]},{"algorithms":"bubble","list":[33,46,3,4,21,10,5]},{"algorithms":"bubble","list":[21,25,31,41,11,6,48]},{"algorithms":"bubble","list":[24,45,14,34,6,42,29]}]}]
+[
+  { "title": "ProblemSetName", "problems": [{ "algorithms": "bubble", "list": [13, 33, 48, 25, 5, 23, 34] }] },
+  {
+    "title": "A",
+    "problems": [
+      { "algorithms": "bubble", "list": [44, 30, 31, 18, 44, 30, 7] },
+      { "algorithms": "bubble", "list": [33, 46, 3, 4, 21, 10, 5] },
+      { "algorithms": "bubble", "list": [21, 25, 31, 41, 11, 6, 48] },
+      { "algorithms": "bubble", "list": [24, 45, 14, 34, 6, 42, 29] }
+    ]
+  }
+]

@@ -11,35 +11,33 @@ const borderStyle = {
   height: 'calc(100vh - 170px)',
 };
 
+const getSteps = (items, type) => {
+  const copiedList = items.slice();
+  if (type === 'bubble') {
+    return bubbleSort(copiedList);
+  } else if (type === 'insertion') {
+    return insertionSort(copiedList);
+  } else if (type === 'selection') {
+    return selectionSort(copiedList);
+  }
+};
+
 const Quiz = (props) => {
   const [mode, SetMode] = useState('inProgress');
   const [qNum, setQNum] = useState(0);
 
   // visualation
-  const question = props.problems[qNum];
-  const [items, setItems] = useState(question['list'].slice());
+  const [items, setItems] = useState(props.problems[qNum]['list']);
   const [currentStep, setCurrentStep] = useState(1);
-  const [steps, setSteps] = useState([question['list'].slice()]);
+  const steps = useRef(getSteps(props.problems[qNum]['list'], props.problems[qNum]['algorithms']));
 
   // timer
   const timerRef = useRef();
 
   useEffect(() => {
-    setItems(question['list']);
+    steps.current = getSteps(props.problems[qNum]['list'], props.problems[qNum]['algorithms']);
     setCurrentStep(1);
-    const getSteps = () => {
-      const type = question['algorithms'];
-      const copiedList = items.slice();
-      if (type === 'bubble') {
-        return bubbleSort(copiedList);
-      } else if (type === 'insertion') {
-        return insertionSort(copiedList);
-      } else if (type === 'selection') {
-        return selectionSort(copiedList);
-      }
-    };
-    setSteps(getSteps());
-  }, [qNum, question, items, props.problems.length]);
+  }, [qNum]);
 
   const onSortEnd = ({ oldIndex, newIndex }) => {
     setItems(arrayMoveImmutable(items, oldIndex, newIndex));
@@ -66,16 +64,16 @@ const Quiz = (props) => {
             <OnlyVisualise
               moveHandler={onSortEnd}
               nextHandler={nextStep}
-              log={steps}
+              log={steps.current}
               currentStep={currentStep}
               list={items}
-              algoType={question['algorithms']}
+              algoType={props.problems[qNum]['algorithms']}
             />
           </Col>
           <Col md={3}>
-            {/* <Row>
+            <Row>
               <StopWatch ref={timerRef} defaulttime={0} defaultactive={true} />
-            </Row> */}
+            </Row>
             <Row>
               <Button variant='info' type='submit' onClick={buttonHander}>
                 {qNum + 1 === props.problems.length ? 'Finish' : 'Next Question'}
