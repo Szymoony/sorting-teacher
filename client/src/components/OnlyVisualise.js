@@ -31,8 +31,6 @@ const OnlyVisualise = (props) => {
 
   const createBars = () => {
     const percentage = (((currentStep - 1) / (log.length - 1)) * 100).toFixed(1);
-    console.log(percentage, currentStep - 1, log.length - 1);
-    console.log('LIST IS', list);
     const sortaItems = list.map((item, index) => <SortableItem key={`item-${index}`} index={index} value={item} />);
     return (
       <Container>
@@ -54,7 +52,6 @@ const OnlyVisualise = (props) => {
   };
 
   const validate = () => {
-    console.log('Step', currentStep, 'Right answer', log[currentStep], 'My answer', list);
     if (log.length === currentStep) {
       alert('Done');
       return;

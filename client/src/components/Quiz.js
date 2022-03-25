@@ -51,7 +51,6 @@ const Quiz = (props) => {
     if (qNum + 1 < props.problems.length) {
       setQNum(qNum + 1);
     } else {
-      console.log('Time is', timerRef.current.handleReset());
       SetMode('done');
     }
   };
@@ -84,7 +83,7 @@ const Quiz = (props) => {
       </Container>
     );
   } else if (mode === 'done') {
-    return <Archieve record={timerRef.current.getTime()} />;
+    return <Archieve numQ={props.problems.length} record={timerRef.current.getTime()} />;
   }
 };
 

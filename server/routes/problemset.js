@@ -16,6 +16,20 @@ router.get('/:id', (req, res) => {
   });
 });
 
+router.post('/:id', (req, res) => {
+  fs.readFile(leaderboardPath, 'utf8', (err, data) => {
+    let t = JSON.parse(data);
+    t[req.params.id].push(req.body);
+    fs.writeFile(leaderboardPath, JSON.stringify(t), (err) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      res.sendStatus(200);
+    });
+  });
+});
+
 router.post('/create', (req, res) => {
   fs.readFile(filepath, 'utf8', (err, data) => {
     let t = JSON.parse(data);
