@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { Container, Row } from 'react-bootstrap';
-import Bar from './Bar';
 import { sortableContainer, sortableElement } from 'react-sortable-hoc';
 import { arrayMoveImmutable } from 'array-move';
+import axios from 'axios';
+import { randomListNoDup } from '../assets/RandomItems';
+import Bar from './Bar';
 import Sidebar from './Sidebar';
 import SortSelection from './SortSelection';
 import Submit from './Submit';
-import axios from 'axios';
 import '../assets/ProblemSetCreator.css';
 
 const SortableItem = sortableElement(({ index, itemIndex, value, _height, _width, handleChange, handleRemoveBar }) => (
@@ -36,7 +37,7 @@ class ProblemSetCreator extends Component {
     this.state = {
       questions: [
         {
-          values: this.generateItems(7), // array of arrays of values for each column in each question
+          values: randomListNoDup(50, 7), // array of arrays of values for each column in each question
         },
       ],
       currentQuestion: 0, // index of questions, determines which question to display
@@ -136,18 +137,6 @@ class ProblemSetCreator extends Component {
     });
   };
 
-  generateItems(n) {
-    const items = [];
-    for (let i = 1; i <= n; i++) {
-      let elemValue = Math.floor(Math.random() * 49 + 1);
-      items.push(elemValue);
-    }
-    if (items.length === 1) {
-      return items[0];
-    }
-    return items;
-  }
-
   // called everytime a question is clicked and rendered (maybe???)
   // returns reordable bars in a container
   createBars(qNumber) {
@@ -194,7 +183,7 @@ class ProblemSetCreator extends Component {
   // handles adding a new question
   handleAdd() {
     const questions = this.state.questions;
-    const values = this.generateItems(7); // randomly generate values
+    const values = randomListNoDup(50, 7); // randomly generate values
     const selectedSorts = this.state.selectedSorts;
     this.setState({
       questions: questions.concat([
