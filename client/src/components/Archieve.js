@@ -23,11 +23,12 @@ const saveRecord = async (id, username, score) => {
   }
 };
 
-const IDEAL_TIME_PER_QUESTION = 300000;
+const IDEAL_TIME_PER_QUESTION = 1000000;
 
 const Archieve = (props) => {
   const { id } = useParams(props);
   const score = Math.round((IDEAL_TIME_PER_QUESTION * props.numQ) / props.record);
+  console.log("Time taken", props.record);
   const textRef = useRef();
 
   return (

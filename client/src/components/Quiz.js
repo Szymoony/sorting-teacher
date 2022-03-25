@@ -35,6 +35,7 @@ const Quiz = (props) => {
   const timerRef = useRef();
 
   useEffect(() => {
+    setItems(props.problems[qNum]['list']);
     steps.current = getSteps(props.problems[qNum]['list'], props.problems[qNum]['algorithms']);
     setCurrentStep(1);
   }, [qNum]);
@@ -48,6 +49,9 @@ const Quiz = (props) => {
   };
 
   const buttonHander = () => {
+    if (currentStep < steps.current.length) {
+      return;
+    }
     if (qNum + 1 < props.problems.length) {
       setQNum(qNum + 1);
     } else {
